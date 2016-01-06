@@ -1,0 +1,2428 @@
+diff -Nru jersey-2.18/bom/pom.xml jersey-2.18.repackaged/bom/pom.xml
+--- jersey-2.18/bom/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/bom/pom.xml	2015-06-09 17:13:41.477252177 +0200
+@@ -82,9 +82,9 @@
+                 <version>${project.version}</version>
+             </dependency>
+             <dependency>
+-                <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
+-                <artifactId>jersey-guava</artifactId>
+-                <version>${project.version}</version>
++                <groupId>com.google.guava</groupId>
++                <artifactId>guava</artifactId>
++                <version>${guava.version}</version>
+             </dependency>
+             <dependency>
+                 <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
+diff -Nru jersey-2.18/connectors/apache-connector/src/main/java/org/glassfish/jersey/apache/connector/ApacheConnector.java jersey-2.18.repackaged/connectors/apache-connector/src/main/java/org/glassfish/jersey/apache/connector/ApacheConnector.java
+--- jersey-2.18/connectors/apache-connector/src/main/java/org/glassfish/jersey/apache/connector/ApacheConnector.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/connectors/apache-connector/src/main/java/org/glassfish/jersey/apache/connector/ApacheConnector.java	2015-06-09 17:11:56.054307591 +0200
+@@ -122,7 +122,7 @@
+ import org.apache.http.util.TextUtils;
+ import org.apache.http.util.VersionInfo;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.MoreExecutors;
++import com.google.common.util.concurrent.MoreExecutors;
+ 
+ /**
+  * A {@link Connector} that utilizes the Apache HTTP Client to send and receive
+diff -Nru jersey-2.18/connectors/grizzly-connector/src/main/java/org/glassfish/jersey/grizzly/connector/GrizzlyConnector.java jersey-2.18.repackaged/connectors/grizzly-connector/src/main/java/org/glassfish/jersey/grizzly/connector/GrizzlyConnector.java
+--- jersey-2.18/connectors/grizzly-connector/src/main/java/org/glassfish/jersey/grizzly/connector/GrizzlyConnector.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/connectors/grizzly-connector/src/main/java/org/glassfish/jersey/grizzly/connector/GrizzlyConnector.java	2015-06-09 17:11:56.222299536 +0200
+@@ -86,7 +86,7 @@
+ import com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider;
+ import com.ning.http.util.ProxyUtils;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
++import com.google.common.util.concurrent.SettableFuture;
+ 
+ /**
+  * The transport using the AsyncHttpClient.
+diff -Nru jersey-2.18/connectors/jetty-connector/src/main/java/org/glassfish/jersey/jetty/connector/JettyConnector.java jersey-2.18.repackaged/connectors/jetty-connector/src/main/java/org/glassfish/jersey/jetty/connector/JettyConnector.java
+--- jersey-2.18/connectors/jetty-connector/src/main/java/org/glassfish/jersey/jetty/connector/JettyConnector.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/connectors/jetty-connector/src/main/java/org/glassfish/jersey/jetty/connector/JettyConnector.java	2015-06-09 17:11:56.100305386 +0200
+@@ -97,9 +97,9 @@
+ import org.eclipse.jetty.util.ssl.SslContextFactory;
+ import org.eclipse.jetty.util.thread.QueuedThreadPool;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.FutureCallback;
+-import jersey.repackaged.com.google.common.util.concurrent.Futures;
+-import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
++import com.google.common.util.concurrent.FutureCallback;
++import com.google.common.util.concurrent.Futures;
++import com.google.common.util.concurrent.SettableFuture;
+ 
+ /**
+  * A {@link Connector} that utilizes the Jetty HTTP Client to send and receive
+diff -Nru jersey-2.18/containers/grizzly2-http/pom.xml jersey-2.18.repackaged/containers/grizzly2-http/pom.xml
+--- jersey-2.18/containers/grizzly2-http/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/grizzly2-http/pom.xml	2015-06-09 17:14:14.816653431 +0200
+@@ -57,7 +57,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java jersey-2.18.repackaged/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java
+--- jersey-2.18/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/grizzly2-http/src/main/java/org/glassfish/jersey/grizzly2/httpserver/GrizzlyHttpServerFactory.java	2015-06-09 17:11:55.988310756 +0200
+@@ -59,7 +59,7 @@
+ import org.glassfish.grizzly.http.server.ServerConfiguration;
+ import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * Factory for creating Grizzly Http Server.
+diff -Nru jersey-2.18/containers/jdk-http/src/main/java/org/glassfish/jersey/jdkhttp/JdkHttpServerFactory.java jersey-2.18.repackaged/containers/jdk-http/src/main/java/org/glassfish/jersey/jdkhttp/JdkHttpServerFactory.java
+--- jersey-2.18/containers/jdk-http/src/main/java/org/glassfish/jersey/jdkhttp/JdkHttpServerFactory.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jdk-http/src/main/java/org/glassfish/jersey/jdkhttp/JdkHttpServerFactory.java	2015-06-09 17:11:56.031308694 +0200
+@@ -64,7 +64,7 @@
+ import com.sun.net.httpserver.HttpsConfigurator;
+ import com.sun.net.httpserver.HttpsServer;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * Factory for creating {@link HttpServer JDK HttpServer} instances to run Jersey applications.
+diff -Nru jersey-2.18/containers/jersey-servlet/src/main/java/org/glassfish/jersey/servlet/init/JerseyServletContainerInitializer.java jersey-2.18.repackaged/containers/jersey-servlet/src/main/java/org/glassfish/jersey/servlet/init/JerseyServletContainerInitializer.java
+--- jersey-2.18/containers/jersey-servlet/src/main/java/org/glassfish/jersey/servlet/init/JerseyServletContainerInitializer.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jersey-servlet/src/main/java/org/glassfish/jersey/servlet/init/JerseyServletContainerInitializer.java	2015-06-09 17:11:56.016309414 +0200
+@@ -69,8 +69,8 @@
+ import org.glassfish.jersey.servlet.internal.Utils;
+ import org.glassfish.jersey.servlet.internal.spi.ServletContainerProvider;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Maps;
+ 
+ /*
+  It is RECOMMENDED that implementations support the Servlet 3 framework
+diff -Nru jersey-2.18/containers/jersey-servlet-core/pom.xml jersey-2.18.repackaged/containers/jersey-servlet-core/pom.xml
+--- jersey-2.18/containers/jersey-servlet-core/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jersey-servlet-core/pom.xml	2015-06-09 17:14:47.363092711 +0200
+@@ -67,7 +67,7 @@
+             <artifactId>persistence-api</artifactId>
+         </dependency>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+     </dependencies>
+diff -Nru jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/PersistenceUnitBinder.java jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/PersistenceUnitBinder.java
+--- jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/PersistenceUnitBinder.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/PersistenceUnitBinder.java	2015-06-09 17:11:55.975311380 +0200
+@@ -59,7 +59,7 @@
+ import org.glassfish.hk2.api.TypeLiteral;
+ import org.glassfish.hk2.utilities.binding.AbstractBinder;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * {@link PersistenceUnit Persistence unit} injection binder.
+diff -Nru jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/ResponseWriter.java jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/ResponseWriter.java
+--- jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/ResponseWriter.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/internal/ResponseWriter.java	2015-06-09 17:11:55.975311380 +0200
+@@ -61,7 +61,7 @@
+ import org.glassfish.jersey.server.spi.ContainerResponseWriter;
+ import org.glassfish.jersey.servlet.spi.AsyncContextDelegate;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
++import com.google.common.util.concurrent.SettableFuture;
+ 
+ /**
+  * An internal implementation of {@link ContainerResponseWriter} for Servlet containers.
+diff -Nru jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/ServletPropertiesDelegate.java jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/ServletPropertiesDelegate.java
+--- jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/ServletPropertiesDelegate.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/ServletPropertiesDelegate.java	2015-06-09 17:11:55.967311763 +0200
+@@ -47,8 +47,8 @@
+ 
+ import org.glassfish.jersey.internal.PropertiesDelegate;
+ 
+-import jersey.repackaged.com.google.common.collect.Iterators;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Iterators;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * @author Martin Matula
+diff -Nru jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/WebComponent.java jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/WebComponent.java
+--- jersey-2.18/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/WebComponent.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jersey-servlet-core/src/main/java/org/glassfish/jersey/servlet/WebComponent.java	2015-06-09 17:11:55.970311619 +0200
+@@ -107,8 +107,8 @@
+ import org.glassfish.hk2.api.TypeLiteral;
+ import org.glassfish.hk2.utilities.binding.AbstractBinder;
+ 
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Collections2;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Collections2;
+ 
+ /**
+  * An common Jersey web component that may be extended by a Servlet and/or
+diff -Nru jersey-2.18/containers/jetty-http/pom.xml jersey-2.18.repackaged/containers/jetty-http/pom.xml
+--- jersey-2.18/containers/jetty-http/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jetty-http/pom.xml	2015-06-09 17:15:15.036765657 +0200
+@@ -57,7 +57,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+ 
+diff -Nru jersey-2.18/containers/jetty-http/src/main/java/org/glassfish/jersey/jetty/JettyHttpContainerFactory.java jersey-2.18.repackaged/containers/jetty-http/src/main/java/org/glassfish/jersey/jetty/JettyHttpContainerFactory.java
+--- jersey-2.18/containers/jetty-http/src/main/java/org/glassfish/jersey/jetty/JettyHttpContainerFactory.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/jetty-http/src/main/java/org/glassfish/jersey/jetty/JettyHttpContainerFactory.java	2015-06-09 17:11:56.045308023 +0200
+@@ -62,7 +62,7 @@
+ import org.eclipse.jetty.util.ssl.SslContextFactory;
+ import org.eclipse.jetty.util.thread.QueuedThreadPool;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * Factory for creating and starting Jetty server handlers. This returns
+diff -Nru jersey-2.18/containers/simple-http/pom.xml jersey-2.18.repackaged/containers/simple-http/pom.xml
+--- jersey-2.18/containers/simple-http/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/containers/simple-http/pom.xml	2015-06-09 17:15:56.216790925 +0200
+@@ -56,7 +56,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/core-client/pom.xml jersey-2.18.repackaged/core-client/pom.xml
+--- jersey-2.18/core-client/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/pom.xml	2015-06-09 17:16:20.263637791 +0200
+@@ -133,7 +133,7 @@
+         </dependency>
+ 
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+ 
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/ClientRequest.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/ClientRequest.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/ClientRequest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/ClientRequest.java	2015-06-09 17:11:55.681325477 +0200
+@@ -74,7 +74,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Preconditions;
++import com.google.common.base.Preconditions;
+ 
+ /**
+  * Jersey client request context.
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/ClientResponse.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/ClientResponse.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/ClientResponse.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/ClientResponse.java	2015-06-09 17:11:55.690325046 +0200
+@@ -67,10 +67,10 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.base.MoreObjects;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.base.MoreObjects;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Jersey client response context.
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/ClientRuntime.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/ClientRuntime.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/ClientRuntime.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/ClientRuntime.java	2015-06-09 17:11:55.682325429 +0200
+@@ -68,7 +68,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
++import com.google.common.util.concurrent.SettableFuture;
+ 
+ /**
+  * Client-side request processing runtime.
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/filter/EncodingFilter.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/filter/EncodingFilter.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/filter/EncodingFilter.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/filter/EncodingFilter.java	2015-06-09 17:11:55.689325094 +0200
+@@ -59,7 +59,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Client filter adding support for {@link org.glassfish.jersey.spi.ContentEncoder content encoding}. The filter adds
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/HttpUrlConnector.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/HttpUrlConnector.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/HttpUrlConnector.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/HttpUrlConnector.java	2015-06-09 17:11:55.688325142 +0200
+@@ -79,9 +79,9 @@
+ import org.glassfish.jersey.message.internal.OutboundMessageContext;
+ import org.glassfish.jersey.message.internal.Statuses;
+ 
+-import jersey.repackaged.com.google.common.base.Predicates;
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.util.concurrent.MoreExecutors;
++import com.google.common.base.Predicates;
++import com.google.common.collect.Maps;
++import com.google.common.util.concurrent.MoreExecutors;
+ 
+ /**
+  * Default client transport connector using {@link HttpURLConnection}.
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/InboundJaxrsResponse.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/InboundJaxrsResponse.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/InboundJaxrsResponse.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/InboundJaxrsResponse.java	2015-06-09 17:11:55.687325190 +0200
+@@ -58,7 +58,7 @@
+ import org.glassfish.jersey.internal.util.Producer;
+ import org.glassfish.jersey.process.internal.RequestScope;
+ 
+-import jersey.repackaged.com.google.common.base.MoreObjects;
++import com.google.common.base.MoreObjects;
+ 
+ /**
+  * Implementation of an inbound client-side JAX-RS {@link Response} message.
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/JerseyClient.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/JerseyClient.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/JerseyClient.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/JerseyClient.java	2015-06-09 17:11:55.683325381 +0200
+@@ -60,8 +60,8 @@
+ import org.glassfish.jersey.internal.util.collection.UnsafeValue;
+ import org.glassfish.jersey.internal.util.collection.Values;
+ 
+-import static jersey.repackaged.com.google.common.base.Preconditions.checkNotNull;
+-import static jersey.repackaged.com.google.common.base.Preconditions.checkState;
++import static com.google.common.base.Preconditions.checkNotNull;
++import static com.google.common.base.Preconditions.checkState;
+ 
+ /**
+  * Jersey implementation of {@link javax.ws.rs.client.Client JAX-RS Client}
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/JerseyInvocation.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/JerseyInvocation.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/JerseyInvocation.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/JerseyInvocation.java	2015-06-09 17:11:55.686325237 +0200
+@@ -80,7 +80,7 @@
+ import org.glassfish.jersey.internal.util.ReflectionHelper;
+ import org.glassfish.jersey.process.internal.RequestScope;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
++import com.google.common.util.concurrent.SettableFuture;
+ 
+ /**
+  * Jersey implementation of {@link javax.ws.rs.client.Invocation JAX-RS client-side
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/JerseyWebTarget.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/JerseyWebTarget.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/JerseyWebTarget.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/JerseyWebTarget.java	2015-06-09 17:11:55.684325333 +0200
+@@ -48,7 +48,7 @@
+ import javax.ws.rs.core.MediaType;
+ import javax.ws.rs.core.UriBuilder;
+ 
+-import jersey.repackaged.com.google.common.base.Preconditions;
++import com.google.common.base.Preconditions;
+ 
+ /**
+  * Jersey implementation of {@link javax.ws.rs.client.WebTarget JAX-RS client target}
+diff -Nru jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/RequestProcessingInitializationStage.java jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/RequestProcessingInitializationStage.java
+--- jersey-2.18/core-client/src/main/java/org/glassfish/jersey/client/RequestProcessingInitializationStage.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/main/java/org/glassfish/jersey/client/RequestProcessingInitializationStage.java	2015-06-09 17:11:55.687325190 +0200
+@@ -54,8 +54,8 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Function that can be put to an acceptor chain to properly initialize
+diff -Nru jersey-2.18/core-client/src/test/java/org/glassfish/jersey/client/JerseyWebTargetTest.java jersey-2.18.repackaged/core-client/src/test/java/org/glassfish/jersey/client/JerseyWebTargetTest.java
+--- jersey-2.18/core-client/src/test/java/org/glassfish/jersey/client/JerseyWebTargetTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-client/src/test/java/org/glassfish/jersey/client/JerseyWebTargetTest.java	2015-06-09 17:11:55.691324998 +0200
+@@ -61,7 +61,7 @@
+ import static org.junit.Assert.assertFalse;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * {@code JerseyWebTarget} implementation unit tests.
+diff -Nru jersey-2.18/core-common/pom.xml jersey-2.18.repackaged/core-common/pom.xml
+--- jersey-2.18/core-common/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/pom.xml	2015-06-09 17:17:24.157574078 +0200
+@@ -178,9 +178,9 @@
+         </dependency>
+ 
+         <dependency>
+-            <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
+-            <artifactId>jersey-guava</artifactId>
+-            <version>${project.version}</version>
++            <groupId>com.google.guava</groupId>
++            <artifactId>guava</artifactId>
++            <version>${guava.version}</version>
+         </dependency>
+ 
+         <dependency>
+@@ -188,7 +188,7 @@
+             <artifactId>hk2-api</artifactId>
+         </dependency>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/FactoryToService.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/FactoryToService.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/FactoryToService.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/FactoryToService.java	2015-06-09 17:11:55.632327827 +0200
+@@ -42,7 +42,7 @@
+ 
+ import org.glassfish.hk2.api.Factory;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Helper function converting a HK2 {@link Factory service factory} into the
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderBinder.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderBinder.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderBinder.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderBinder.java	2015-06-09 17:11:55.626328115 +0200
+@@ -59,8 +59,8 @@
+ import org.glassfish.hk2.utilities.BuilderHelper;
+ import org.glassfish.hk2.utilities.binding.ScopedBindingBuilder;
+ 
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Class used for registration of the custom providers into HK2 service locator.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/Providers.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/Providers.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/Providers.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/Providers.java	2015-06-09 17:11:55.628328019 +0200
+@@ -72,10 +72,10 @@
+ import org.glassfish.hk2.api.ServiceHandle;
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Utility class providing a set of utility methods for easier and more type-safe
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToFactory.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToFactory.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToFactory.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToFactory.java	2015-06-09 17:11:55.633327779 +0200
+@@ -42,7 +42,7 @@
+ import org.glassfish.hk2.api.Factory;
+ import org.glassfish.hk2.api.ServiceHandle;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ 
+ /**
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToService.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToService.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToService.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/inject/ProviderToService.java	2015-06-09 17:11:55.638327539 +0200
+@@ -41,7 +41,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceHandle;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Helper function converting a HK2 {@link ServiceHandle service provider} into the
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/util/collection/Refs.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/util/collection/Refs.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/util/collection/Refs.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/util/collection/Refs.java	2015-06-09 17:11:55.656326676 +0200
+@@ -39,7 +39,7 @@
+  */
+ package org.glassfish.jersey.internal.util.collection;
+ 
+-import jersey.repackaged.com.google.common.base.MoreObjects;
++import com.google.common.base.MoreObjects;
+ 
+ /**
+  * A collection of {@link Ref reference} factory & utility methods.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/util/ReflectionHelper.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/util/ReflectionHelper.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/internal/util/ReflectionHelper.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/internal/util/ReflectionHelper.java	2015-06-09 17:11:55.648327060 +0200
+@@ -79,10 +79,10 @@
+ import org.osgi.framework.Bundle;
+ import org.osgi.framework.FrameworkUtil;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Utility methods for Java reflection.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/CommittingOutputStream.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/CommittingOutputStream.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/CommittingOutputStream.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/CommittingOutputStream.java	2015-06-09 17:11:55.652326868 +0200
+@@ -48,7 +48,7 @@
+ 
+ import org.glassfish.jersey.internal.LocalizationMessages;
+ 
+-import jersey.repackaged.com.google.common.base.Preconditions;
++import com.google.common.base.Preconditions;
+ 
+ /**
+  * A committing output stream with optional serialized entity buffering functionality
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/HeaderUtils.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/HeaderUtils.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/HeaderUtils.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/HeaderUtils.java	2015-06-09 17:11:55.637327587 +0200
+@@ -57,10 +57,10 @@
+ import org.glassfish.jersey.internal.util.collection.ImmutableMultivaluedMap;
+ import org.glassfish.jersey.internal.util.collection.StringKeyIgnoreCaseMultivaluedMap;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.ImmutableMap;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.base.Function;
++import com.google.common.collect.ImmutableMap;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Utility class supporting the processing of message headers.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/InboundMessageContext.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/InboundMessageContext.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/InboundMessageContext.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/InboundMessageContext.java	2015-06-09 17:11:55.641327395 +0200
+@@ -77,7 +77,7 @@
+ import org.glassfish.jersey.internal.PropertiesDelegate;
+ import org.glassfish.jersey.message.MessageBodyWorkers;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Base inbound message context implementation.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/MediaTypes.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/MediaTypes.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/MediaTypes.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/MediaTypes.java	2015-06-09 17:11:55.639327491 +0200
+@@ -51,8 +51,8 @@
+ import javax.ws.rs.Produces;
+ import javax.ws.rs.core.MediaType;
+ 
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Common media types and functionality.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/MessageBodyFactory.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/MessageBodyFactory.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/MessageBodyFactory.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/MessageBodyFactory.java	2015-06-09 17:11:55.644327251 +0200
+@@ -97,10 +97,10 @@
+ 
+ import org.jvnet.hk2.annotations.Optional;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
+-import jersey.repackaged.com.google.common.primitives.Primitives;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
++import com.google.common.primitives.Primitives;
+ 
+ /**
+  * A factory for managing {@link MessageBodyReader}, {@link MessageBodyWriter} instances.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundJaxrsResponse.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundJaxrsResponse.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundJaxrsResponse.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundJaxrsResponse.java	2015-06-09 17:11:55.625328163 +0200
+@@ -66,7 +66,7 @@
+ 
+ import org.glassfish.jersey.internal.LocalizationMessages;
+ 
+-import jersey.repackaged.com.google.common.base.MoreObjects;
++import com.google.common.base.MoreObjects;
+ 
+ /**
+  * An outbound JAX-RS response message.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundMessageContext.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundMessageContext.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundMessageContext.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/OutboundMessageContext.java	2015-06-09 17:11:55.651326916 +0200
+@@ -74,9 +74,9 @@
+ import org.glassfish.jersey.internal.LocalizationMessages;
+ import org.glassfish.jersey.internal.util.ReflectionHelper;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Base outbound message context implementation.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/ReaderInterceptorExecutor.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/ReaderInterceptorExecutor.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/ReaderInterceptorExecutor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/ReaderInterceptorExecutor.java	2015-06-09 17:11:55.622328306 +0200
+@@ -67,7 +67,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Represents reader interceptor chain executor for both client and server side.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/VariantSelector.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/VariantSelector.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/VariantSelector.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/VariantSelector.java	2015-06-09 17:11:55.629327971 +0200
+@@ -53,8 +53,8 @@
+ 
+ import org.glassfish.jersey.internal.util.collection.Ref;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Utility for selecting variant that best matches request from a list of variants.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/WriterInterceptorExecutor.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/WriterInterceptorExecutor.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/message/internal/WriterInterceptorExecutor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/message/internal/WriterInterceptorExecutor.java	2015-06-09 17:11:55.649327012 +0200
+@@ -64,7 +64,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Represents writer interceptor chain executor for both client and server side.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/model/ContractProvider.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/model/ContractProvider.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/model/ContractProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/model/ContractProvider.java	2015-06-09 17:11:55.654326772 +0200
+@@ -48,8 +48,8 @@
+ 
+ import javax.inject.Singleton;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Jersey contract provider model.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/model/internal/CommonConfig.java	2015-06-09 17:11:55.632327827 +0200
+@@ -78,11 +78,11 @@
+ import org.glassfish.hk2.api.ServiceLocator;
+ import org.glassfish.hk2.utilities.Binder;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Common immutable {@link javax.ws.rs.core.Configuration} implementation for
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/model/internal/ComponentBag.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/model/internal/ComponentBag.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/model/internal/ComponentBag.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/model/internal/ComponentBag.java	2015-06-09 17:11:55.653326820 +0200
+@@ -62,10 +62,10 @@
+ 
+ import org.glassfish.hk2.utilities.Binder;
+ 
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.base.Predicates;
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Predicate;
++import com.google.common.base.Predicates;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * An internal Jersey container for custom component classes and instances.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/process/internal/RequestScope.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/process/internal/RequestScope.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/process/internal/RequestScope.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/process/internal/RequestScope.java	2015-06-09 17:11:55.636327635 +0200
+@@ -60,10 +60,10 @@
+ import org.glassfish.hk2.api.ServiceHandle;
+ import org.glassfish.hk2.utilities.binding.AbstractBinder;
+ 
+-import jersey.repackaged.com.google.common.base.MoreObjects;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.MoreObjects;
++import com.google.common.collect.Sets;
+ 
+-import static jersey.repackaged.com.google.common.base.Preconditions.checkState;
++import static com.google.common.base.Preconditions.checkState;
+ 
+ /**
+  * Scopes a single request/response processing execution on a single thread.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/process/internal/Stage.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/process/internal/Stage.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/process/internal/Stage.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/process/internal/Stage.java	2015-06-09 17:11:55.657326628 +0200
+@@ -39,7 +39,7 @@
+  */
+ package org.glassfish.jersey.process.internal;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Data processing stage that can be used to create dynamic data processing chains.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/process/internal/Stages.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/process/internal/Stages.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/process/internal/Stages.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/process/internal/Stages.java	2015-06-09 17:11:55.630327923 +0200
+@@ -45,7 +45,7 @@
+ import org.glassfish.jersey.internal.util.collection.Ref;
+ import org.glassfish.jersey.process.Inflector;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * A stage-related collection of utility methods.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/spi/AbstractThreadPoolProvider.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/spi/AbstractThreadPoolProvider.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/spi/AbstractThreadPoolProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/spi/AbstractThreadPoolProvider.java	2015-06-09 17:11:55.669326053 +0200
+@@ -59,7 +59,7 @@
+ import org.glassfish.jersey.internal.util.collection.Values;
+ import org.glassfish.jersey.process.JerseyProcessingUncaughtExceptionHandler;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * Abstract thread pool executor provider.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/spi/ContentEncoder.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/spi/ContentEncoder.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/spi/ContentEncoder.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/spi/ContentEncoder.java	2015-06-09 17:11:55.638327539 +0200
+@@ -57,7 +57,7 @@
+ 
+ import javax.annotation.Priority;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Standard contract for plugging in content encoding support. Provides a standard way of implementing encoding
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/uri/internal/JerseyUriBuilder.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/uri/internal/JerseyUriBuilder.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/uri/internal/JerseyUriBuilder.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/uri/internal/JerseyUriBuilder.java	2015-06-09 17:11:55.635327683 +0200
+@@ -58,8 +58,8 @@
+ import org.glassfish.jersey.uri.UriComponent;
+ import org.glassfish.jersey.uri.UriTemplate;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.net.InetAddresses;
++import com.google.common.collect.Maps;
++import com.google.common.net.InetAddresses;
+ 
+ /**
+  * A Jersey implementation of {@link UriBuilder}.
+diff -Nru jersey-2.18/core-common/src/main/java/org/glassfish/jersey/uri/UriTemplate.java jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/uri/UriTemplate.java
+--- jersey-2.18/core-common/src/main/java/org/glassfish/jersey/uri/UriTemplate.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/main/java/org/glassfish/jersey/uri/UriTemplate.java	2015-06-09 17:11:55.659326532 +0200
+@@ -53,7 +53,7 @@
+ 
+ import org.glassfish.jersey.uri.internal.UriTemplateParser;
+ 
+-import jersey.repackaged.com.google.common.base.Preconditions;
++import com.google.common.base.Preconditions;
+ 
+ /**
+  * A URI template.
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/config/ServiceFinderBinderTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/config/ServiceFinderBinderTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/config/ServiceFinderBinderTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/config/ServiceFinderBinderTest.java	2015-06-09 17:11:55.664326292 +0200
+@@ -53,8 +53,8 @@
+ import org.junit.BeforeClass;
+ import org.junit.Test;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Collections2;
++import com.google.common.base.Function;
++import com.google.common.collect.Collections2;
+ 
+ import javax.ws.rs.RuntimeType;
+ 
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/internal/ContextResolverFactoryTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/internal/ContextResolverFactoryTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/internal/ContextResolverFactoryTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/internal/ContextResolverFactoryTest.java	2015-06-09 17:11:55.665326244 +0200
+@@ -56,7 +56,7 @@
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertNull;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Context resolvers factory unit test.
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/internal/ProviderBinderTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/internal/ProviderBinderTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/internal/ProviderBinderTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/internal/ProviderBinderTest.java	2015-06-09 17:11:55.667326149 +0200
+@@ -75,11 +75,11 @@
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * ServiceProviders unit test.
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/internal/util/PropertiesHelperTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/internal/util/PropertiesHelperTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/internal/util/PropertiesHelperTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/internal/util/PropertiesHelperTest.java	2015-06-09 17:11:55.661326436 +0200
+@@ -48,7 +48,7 @@
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertNull;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * @author Miroslav Fuksa
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/DeflateEncodingTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/DeflateEncodingTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/DeflateEncodingTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/DeflateEncodingTest.java	2015-06-09 17:11:55.666326197 +0200
+@@ -61,7 +61,7 @@
+ 
+ import org.junit.Test;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * @author Martin Matula
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/internal/CommittingOutputStreamTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/internal/CommittingOutputStreamTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/internal/CommittingOutputStreamTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/internal/CommittingOutputStreamTest.java	2015-06-09 17:11:55.667326149 +0200
+@@ -58,7 +58,7 @@
+ import static org.junit.Assert.assertTrue;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Test the {@link CommittingOutputStream}.
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/internal/HeaderUtilsTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/internal/HeaderUtilsTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/internal/HeaderUtilsTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/internal/HeaderUtilsTest.java	2015-06-09 17:11:55.660326484 +0200
+@@ -58,7 +58,7 @@
+ import static org.junit.Assert.assertTrue;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * {@link HeaderUtils} unit tests.
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/internal/MediaTypesTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/internal/MediaTypesTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/message/internal/MediaTypesTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/message/internal/MediaTypesTest.java	2015-06-09 17:11:55.664326292 +0200
+@@ -51,7 +51,7 @@
+ import static org.hamcrest.CoreMatchers.is;
+ import static org.junit.Assert.assertThat;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * MediaTypes utility method tests.
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/model/internal/CommonConfigTest.java	2015-06-09 17:11:55.663326340 +0200
+@@ -83,7 +83,7 @@
+ import static org.junit.Assert.assertTrue;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Test cases for {@link javax.ws.rs.core.Configuration}.
+diff -Nru jersey-2.18/core-common/src/test/java/org/glassfish/jersey/process/internal/RankedComparatorTest.java jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/process/internal/RankedComparatorTest.java
+--- jersey-2.18/core-common/src/test/java/org/glassfish/jersey/process/internal/RankedComparatorTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-common/src/test/java/org/glassfish/jersey/process/internal/RankedComparatorTest.java	2015-06-09 17:11:55.668326101 +0200
+@@ -50,7 +50,7 @@
+ import org.junit.Test;
+ import static org.junit.Assert.assertTrue;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Tests {@link org.glassfish.jersey.model.internal.RankedComparator}.
+diff -Nru jersey-2.18/core-server/pom.xml jersey-2.18.repackaged/core-server/pom.xml
+--- jersey-2.18/core-server/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/pom.xml	2015-06-09 17:18:52.664346870 +0200
+@@ -198,7 +198,7 @@
+             <artifactId>hk2-api</artifactId>
+         </dependency>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ApplicationHandler.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ApplicationHandler.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ApplicationHandler.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ApplicationHandler.java	2015-06-09 17:11:55.856317086 +0200
+@@ -135,12 +135,12 @@
+ import org.glassfish.hk2.utilities.binding.AbstractBinder;
+ import org.glassfish.hk2.utilities.binding.ScopedBindingBuilder;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
+-import jersey.repackaged.com.google.common.util.concurrent.AbstractFuture;
++import com.google.common.base.Function;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
++import com.google.common.util.concurrent.AbstractFuture;
+ 
+ /**
+  * Jersey server-side application handler.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ContainerMessageBodyWorkersInitializer.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ContainerMessageBodyWorkersInitializer.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ContainerMessageBodyWorkersInitializer.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ContainerMessageBodyWorkersInitializer.java	2015-06-09 17:11:55.770321210 +0200
+@@ -45,7 +45,7 @@
+ import org.glassfish.jersey.message.MessageBodyWorkers;
+ import org.glassfish.jersey.server.internal.process.RequestProcessingContext;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Function that can be put to an acceptor chain to properly initialize
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ContainerRequest.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ContainerRequest.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ContainerRequest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ContainerRequest.java	2015-06-09 17:11:55.853317230 +0200
+@@ -89,9 +89,9 @@
+ import org.glassfish.jersey.uri.UriComponent;
+ import org.glassfish.jersey.uri.internal.JerseyUriBuilder;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.base.Preconditions;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.base.Preconditions;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Jersey container request context.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/filter/EncodingFilter.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/filter/EncodingFilter.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/filter/EncodingFilter.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/filter/EncodingFilter.java	2015-06-09 17:11:55.776320922 +0200
+@@ -63,8 +63,8 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Container filter that supports encoding-based content negotiation. The filter examines what
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/filter/UriConnegFilter.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/filter/UriConnegFilter.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/filter/UriConnegFilter.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/filter/UriConnegFilter.java	2015-06-09 17:11:55.778320826 +0200
+@@ -65,7 +65,7 @@
+ import org.glassfish.jersey.server.internal.LocalizationMessages;
+ import org.glassfish.jersey.uri.UriComponent;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * A URI-based content negotiation filter mapping a dot-declared suffix in
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/ParamInjectionResolver.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/ParamInjectionResolver.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/ParamInjectionResolver.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/ParamInjectionResolver.java	2015-06-09 17:11:55.812319196 +0200
+@@ -61,8 +61,8 @@
+ import org.glassfish.hk2.api.ServiceHandle;
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Abstract base class for resolving JAX-RS {@code &#64;XxxParam} injection.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/WebTargetValueFactoryProvider.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/WebTargetValueFactoryProvider.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/WebTargetValueFactoryProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/inject/WebTargetValueFactoryProvider.java	2015-06-09 17:11:55.816319004 +0200
+@@ -75,10 +75,10 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.base.Function;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Value factory provider supporting the {@link Uri} injection annotation.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/JerseyResourceContext.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/JerseyResourceContext.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/JerseyResourceContext.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/JerseyResourceContext.java	2015-06-09 17:11:55.802319675 +0200
+@@ -67,7 +67,7 @@
+ import org.glassfish.hk2.utilities.BuilderHelper;
+ import org.glassfish.hk2.utilities.binding.AbstractBinder;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Jersey implementation of JAX-RS {@link ResourceContext resource context}.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/JsonWithPaddingInterceptor.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/JsonWithPaddingInterceptor.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/JsonWithPaddingInterceptor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/JsonWithPaddingInterceptor.java	2015-06-09 17:11:55.844317661 +0200
+@@ -62,8 +62,8 @@
+ import org.glassfish.jersey.server.ContainerRequest;
+ import org.glassfish.jersey.server.JSONP;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * A {@link WriterInterceptor} implementation for JSONP format. This interceptor wraps a JSON stream obtained by a underlying
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/CompositeApplicationEventListener.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/CompositeApplicationEventListener.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/CompositeApplicationEventListener.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/CompositeApplicationEventListener.java	2015-06-09 17:11:55.797319915 +0200
+@@ -47,7 +47,7 @@
+ import org.glassfish.jersey.server.monitoring.RequestEvent;
+ import org.glassfish.jersey.server.monitoring.RequestEventListener;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * {@link ApplicationEventListener application event listener} that aggregates more event listeners into one.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExceptionMapperStatisticsImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExceptionMapperStatisticsImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExceptionMapperStatisticsImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExceptionMapperStatisticsImpl.java	2015-06-09 17:11:55.787320394 +0200
+@@ -45,7 +45,7 @@
+ 
+ import org.glassfish.jersey.server.monitoring.ExceptionMapperStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Exception mapper statistics.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExecutionStatisticsImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExecutionStatisticsImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExecutionStatisticsImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ExecutionStatisticsImpl.java	2015-06-09 17:11:55.801319723 +0200
+@@ -49,7 +49,7 @@
+ import org.glassfish.jersey.server.monitoring.ExecutionStatistics;
+ import org.glassfish.jersey.server.monitoring.TimeWindowStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Execution statistics.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ApplicationMXBeanImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ApplicationMXBeanImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ApplicationMXBeanImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ApplicationMXBeanImpl.java	2015-06-09 17:11:55.788320346 +0200
+@@ -49,8 +49,8 @@
+ import org.glassfish.jersey.server.monitoring.ApplicationMXBean;
+ import org.glassfish.jersey.server.monitoring.ApplicationInfo;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * MXBean implementing {@link org.glassfish.jersey.server.monitoring.ApplicationMXBean} MXBean interface.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExceptionMapperMXBeanImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExceptionMapperMXBeanImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExceptionMapperMXBeanImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExceptionMapperMXBeanImpl.java	2015-06-09 17:11:55.789320298 +0200
+@@ -45,7 +45,7 @@
+ import org.glassfish.jersey.server.monitoring.ExceptionMapperMXBean;
+ import org.glassfish.jersey.server.monitoring.ExceptionMapperStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * MXBean implementing a {@link org.glassfish.jersey.server.monitoring.ExceptionMapperMXBean} mxbean interface.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExecutionStatisticsDynamicBean.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExecutionStatisticsDynamicBean.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExecutionStatisticsDynamicBean.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ExecutionStatisticsDynamicBean.java	2015-06-09 17:11:55.790320251 +0200
+@@ -56,7 +56,7 @@
+ import org.glassfish.jersey.server.monitoring.ExecutionStatistics;
+ import org.glassfish.jersey.server.monitoring.TimeWindowStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Dynamic MBean that exposes information about execution statistics. The exposed information contains
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/MBeanExposer.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/MBeanExposer.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/MBeanExposer.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/MBeanExposer.java	2015-06-09 17:11:55.791320203 +0200
+@@ -63,7 +63,7 @@
+ import org.glassfish.jersey.server.spi.AbstractContainerLifecycleListener;
+ import org.glassfish.jersey.server.spi.Container;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * The main exposer class of Jersey JMX MBeans. The class creates MBeans and contains methods that
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourceMxBeanImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourceMxBeanImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourceMxBeanImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourceMxBeanImpl.java	2015-06-09 17:11:55.791320203 +0200
+@@ -48,7 +48,7 @@
+ import org.glassfish.jersey.server.monitoring.ResourceMethodStatistics;
+ import org.glassfish.jersey.server.monitoring.ResourceStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * MXBean implementing the {@link org.glassfish.jersey.server.monitoring.ResourceMethodMXBean} MXBean interface.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourcesMBeanGroup.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourcesMBeanGroup.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourcesMBeanGroup.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/jmx/ResourcesMBeanGroup.java	2015-06-09 17:11:55.789320298 +0200
+@@ -44,7 +44,7 @@
+ 
+ import org.glassfish.jersey.server.monitoring.ResourceStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Group of resource MXBeans.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringEventListener.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringEventListener.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringEventListener.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringEventListener.java	2015-06-09 17:11:55.796319963 +0200
+@@ -61,8 +61,8 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Queues;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Queues;
+ 
+ /**
+  * {@link ApplicationEventListener application event listener} that listens to {@link ApplicationEvent application}
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsImpl.java	2015-06-09 17:11:55.797319915 +0200
+@@ -54,8 +54,8 @@
+ import org.glassfish.jersey.server.monitoring.ResourceStatistics;
+ import org.glassfish.jersey.server.monitoring.ResponseStatistics;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.base.Function;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Monitoring statistics implementation.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceMethodStatisticsImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceMethodStatisticsImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceMethodStatisticsImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceMethodStatisticsImpl.java	2015-06-09 17:11:55.798319867 +0200
+@@ -46,7 +46,7 @@
+ import org.glassfish.jersey.server.monitoring.ExecutionStatistics;
+ import org.glassfish.jersey.server.monitoring.ResourceMethodStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Resource method statistics.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceStatisticsImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceStatisticsImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceStatisticsImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResourceStatisticsImpl.java	2015-06-09 17:11:55.795320011 +0200
+@@ -51,7 +51,7 @@
+ import org.glassfish.jersey.server.monitoring.ResourceMethodStatistics;
+ import org.glassfish.jersey.server.monitoring.ResourceStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Resource statistics implementation.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResponseStatisticsImpl.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResponseStatisticsImpl.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResponseStatisticsImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/monitoring/ResponseStatisticsImpl.java	2015-06-09 17:11:55.801319723 +0200
+@@ -44,7 +44,7 @@
+ 
+ import org.glassfish.jersey.server.monitoring.ResponseStatistics;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * @author Miroslav Fuksa
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultCloseableService.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultCloseableService.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultCloseableService.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultCloseableService.java	2015-06-09 17:11:55.829318380 +0200
+@@ -48,7 +48,7 @@
+ import org.glassfish.jersey.server.CloseableService;
+ import org.glassfish.jersey.server.internal.LocalizationMessages;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Default implementation of {@link CloseableService}.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultRespondingContext.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultRespondingContext.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultRespondingContext.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/DefaultRespondingContext.java	2015-06-09 17:11:55.829318380 +0200
+@@ -44,7 +44,7 @@
+ import org.glassfish.jersey.process.internal.Stages;
+ import org.glassfish.jersey.server.ContainerResponse;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Default implementation of the request-scoped
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/ReferencesInitializer.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/ReferencesInitializer.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/ReferencesInitializer.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/ReferencesInitializer.java	2015-06-09 17:11:55.826318524 +0200
+@@ -47,7 +47,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Request/response scoped injection support initialization stage.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RequestProcessingContext.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RequestProcessingContext.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RequestProcessingContext.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RequestProcessingContext.java	2015-06-09 17:11:55.826318524 +0200
+@@ -56,7 +56,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Request processing context.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RespondingContext.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RespondingContext.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RespondingContext.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/process/RespondingContext.java	2015-06-09 17:11:55.826318524 +0200
+@@ -43,7 +43,7 @@
+ import org.glassfish.jersey.process.internal.Stage;
+ import org.glassfish.jersey.server.ContainerResponse;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
++import com.google.common.base.Function;
+ 
+ /**
+  * Context that can be used during the data processing for registering response
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/MethodSelectingRouter.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/MethodSelectingRouter.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/MethodSelectingRouter.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/MethodSelectingRouter.java	2015-06-09 17:11:55.835318093 +0200
+@@ -75,10 +75,10 @@
+ import org.glassfish.jersey.server.model.Parameter;
+ import org.glassfish.jersey.server.model.ResourceMethod;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
+-import jersey.repackaged.com.google.common.primitives.Primitives;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
++import com.google.common.primitives.Primitives;
+ 
+ /**
+  * A single router responsible for selecting a single method from all the methods
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/RuntimeLocatorModelBuilder.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/RuntimeLocatorModelBuilder.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/RuntimeLocatorModelBuilder.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/RuntimeLocatorModelBuilder.java	2015-06-09 17:11:55.831318285 +0200
+@@ -65,9 +65,9 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.cache.CacheBuilder;
+-import jersey.repackaged.com.google.common.cache.CacheLoader;
+-import jersey.repackaged.com.google.common.cache.LoadingCache;
++import com.google.common.cache.CacheBuilder;
++import com.google.common.cache.CacheLoader;
++import com.google.common.cache.LoadingCache;
+ 
+ /**
+  * Base for sub-resource locator runtime model builder.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/UriRoutingContext.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/UriRoutingContext.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/UriRoutingContext.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/internal/routing/UriRoutingContext.java	2015-06-09 17:11:55.840317853 +0200
+@@ -66,8 +66,8 @@
+ import org.glassfish.jersey.uri.UriTemplate;
+ import org.glassfish.jersey.uri.internal.JerseyUriBuilder;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Default implementation of the routing context as well as URI information provider.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ComponentModelValidator.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ComponentModelValidator.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ComponentModelValidator.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ComponentModelValidator.java	2015-06-09 17:11:55.750322169 +0200
+@@ -59,7 +59,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * A resource model validator that checks the given resource model.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelErrors.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelErrors.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelErrors.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelErrors.java	2015-06-09 17:11:55.754321977 +0200
+@@ -44,8 +44,8 @@
+ import org.glassfish.jersey.internal.Errors;
+ import org.glassfish.jersey.server.model.ResourceModelIssue;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Utility to transform {@link Errors.ErrorMessage error messages} to {@link ResourceModelIssue}s.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelProcessorUtil.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelProcessorUtil.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelProcessorUtil.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/internal/ModelProcessorUtil.java	2015-06-09 17:11:55.757321833 +0200
+@@ -55,7 +55,7 @@
+ import org.glassfish.jersey.server.model.ResourceModel;
+ import org.glassfish.jersey.server.model.RuntimeResource;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ 
+ /**
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/Resource.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/Resource.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/Resource.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/Resource.java	2015-06-09 17:11:55.762321593 +0200
+@@ -56,10 +56,10 @@
+ import org.glassfish.jersey.server.model.internal.ModelHelper;
+ import org.glassfish.jersey.uri.PathPattern;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.base.Preconditions;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.base.Preconditions;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Model of a single resource component.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodConfig.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodConfig.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodConfig.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodConfig.java	2015-06-09 17:11:55.766321401 +0200
+@@ -58,7 +58,7 @@
+ import org.glassfish.jersey.process.Inflector;
+ import org.glassfish.jersey.server.internal.LocalizationMessages;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Default {@link javax.ws.rs.core.Configuration configuration} for resource methods.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodInvoker.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodInvoker.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodInvoker.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethodInvoker.java	2015-06-09 17:11:55.768321305 +0200
+@@ -89,8 +89,8 @@
+ import org.glassfish.hk2.api.ServiceLocator;
+ import org.glassfish.hk2.utilities.binding.AbstractBinder;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Server-side request-response {@link Inflector inflector} for invoking methods
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethod.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethod.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethod.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceMethod.java	2015-06-09 17:11:55.746322360 +0200
+@@ -59,10 +59,10 @@
+ import org.glassfish.jersey.process.Inflector;
+ import org.glassfish.jersey.uri.PathPattern;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Model of a method available on a resource. Covers resource method, sub-resource
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceModel.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceModel.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceModel.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/ResourceModel.java	2015-06-09 17:11:55.749322217 +0200
+@@ -47,9 +47,9 @@
+ import org.glassfish.jersey.internal.util.collection.Value;
+ import org.glassfish.jersey.internal.util.collection.Values;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ 
+ /**
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResource.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResource.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResource.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResource.java	2015-06-09 17:11:55.759321737 +0200
+@@ -46,8 +46,8 @@
+ 
+ import org.glassfish.jersey.uri.PathPattern;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Runtime resource is a group of {@link Resource resources} with the same {@link Resource#getPath() path}
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModel.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModel.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModel.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModel.java	2015-06-09 17:11:55.747322312 +0200
+@@ -46,8 +46,8 @@
+ 
+ import org.glassfish.jersey.uri.PathTemplate;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Maps;
+ 
+ 
+ /**
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModelValidator.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModelValidator.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModelValidator.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/model/RuntimeResourceModelValidator.java	2015-06-09 17:11:55.743322504 +0200
+@@ -52,7 +52,7 @@
+ import org.glassfish.jersey.message.internal.MediaTypes;
+ import org.glassfish.jersey.server.internal.LocalizationMessages;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Runtime resource model validator validating ambiguity of resource methods.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ResourceBag.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ResourceBag.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ResourceBag.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ResourceBag.java	2015-06-09 17:11:55.845317613 +0200
+@@ -49,7 +49,7 @@
+ 
+ import org.glassfish.jersey.server.model.Resource;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * A container for application resource models used during the {@link ApplicationHandler}
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ResourceConfig.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ResourceConfig.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ResourceConfig.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ResourceConfig.java	2015-06-09 17:11:55.850317373 +0200
+@@ -75,8 +75,8 @@
+ import org.glassfish.hk2.api.ServiceLocator;
+ import org.glassfish.hk2.utilities.Binder;
+ 
+-import jersey.repackaged.com.google.common.base.Predicate;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Predicate;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * The resource configuration for configuring a web application.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ServerRuntime.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ServerRuntime.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/ServerRuntime.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/ServerRuntime.java	2015-06-09 17:11:55.732323032 +0200
+@@ -119,7 +119,7 @@
+ import static org.glassfish.jersey.server.internal.process.AsyncContext.State.RUNNING;
+ import static org.glassfish.jersey.server.internal.process.AsyncContext.State.SUSPENDED;
+ 
+-import jersey.repackaged.com.google.common.base.Preconditions;
++import com.google.common.base.Preconditions;
+ 
+ /**
+  * Server-side request processing runtime.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/TracingUtils.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/TracingUtils.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/TracingUtils.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/TracingUtils.java	2015-06-09 17:11:55.845317613 +0200
+@@ -47,7 +47,7 @@
+ import org.glassfish.jersey.message.internal.TracingLogger;
+ import org.glassfish.jersey.server.internal.ServerTraceEvent;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Utilities for tracing support.
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/OptionsMethodProcessor.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/OptionsMethodProcessor.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/OptionsMethodProcessor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/OptionsMethodProcessor.java	2015-06-09 17:11:55.711324039 +0200
+@@ -60,7 +60,7 @@
+ import org.glassfish.jersey.server.model.ResourceModel;
+ import org.glassfish.jersey.server.model.internal.ModelProcessorUtil;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * {@link ModelProcessor Model processor} enhancing {@link ResourceModel resource model} and {@link Resource sub resources}
+diff -Nru jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/WadlModelProcessor.java jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/WadlModelProcessor.java
+--- jersey-2.18/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/WadlModelProcessor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/main/java/org/glassfish/jersey/server/wadl/processor/WadlModelProcessor.java	2015-06-09 17:11:55.712323991 +0200
+@@ -73,7 +73,7 @@
+ 
+ import com.sun.research.ws.wadl.Application;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * WADL {@link ModelProcessor model processor} which enhance resource model by WADL related resources (like "/application.wadl").
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/ApplicationTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/ApplicationTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/ApplicationTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/ApplicationTest.java	2015-06-09 17:11:55.901314928 +0200
+@@ -47,7 +47,7 @@
+ 
+ import org.junit.Test;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * @author Pavel Bucek (pavel.bucek at oracle.com)
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/filter/ApplicationFilterTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/filter/ApplicationFilterTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/filter/ApplicationFilterTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/filter/ApplicationFilterTest.java	2015-06-09 17:11:55.906314688 +0200
+@@ -68,7 +68,7 @@
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Test for JAX-RS filters.
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/filter/UriConnegFilterTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/filter/UriConnegFilterTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/filter/UriConnegFilterTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/filter/UriConnegFilterTest.java	2015-06-09 17:11:55.903314832 +0200
+@@ -57,7 +57,7 @@
+ import org.junit.Test;
+ import static org.junit.Assert.assertEquals;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  *
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/ParamConverterInternalTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/ParamConverterInternalTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/ParamConverterInternalTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/internal/inject/ParamConverterInternalTest.java	2015-06-09 17:11:55.919314065 +0200
+@@ -74,8 +74,8 @@
+ import static org.junit.Assert.assertThat;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Tests {@link ParamConverter param converters}.
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/internal/monitoring/MonitoringStatisticsTest.java	2015-06-09 17:11:55.909314544 +0200
+@@ -63,7 +63,7 @@
+ import org.junit.Assert;
+ import org.junit.Test;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * @author Miroslav Fuksa
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/model/ConstrainedToServerTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/model/ConstrainedToServerTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/model/ConstrainedToServerTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/model/ConstrainedToServerTest.java	2015-06-09 17:11:55.899315024 +0200
+@@ -75,7 +75,7 @@
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Tests whether providers are correctly validated in the server runtime (for example if provider constrained to
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/model/ResourceModelTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/model/ResourceModelTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/model/ResourceModelTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/model/ResourceModelTest.java	2015-06-09 17:11:55.901314928 +0200
+@@ -53,7 +53,7 @@
+ import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Test {@link ResourceModel} and {@link RuntimeResourceModel}.
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/model/ValidatorTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/model/ValidatorTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/model/ValidatorTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/model/ValidatorTest.java	2015-06-09 17:11:55.877316079 +0200
+@@ -87,7 +87,7 @@
+ import static org.junit.Assert.assertNotEquals;
+ import static org.junit.Assert.assertTrue;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Taken from Jersey 1: jersey-server:com.sun.jersey.server.impl.modelapi.validation.ResourceModelValidatorTest.java
+diff -Nru jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/wadl/generators/resourcedoc/WadlGeneratorResourceDocSupportTest.java jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/wadl/generators/resourcedoc/WadlGeneratorResourceDocSupportTest.java
+--- jersey-2.18/core-server/src/test/java/org/glassfish/jersey/server/wadl/generators/resourcedoc/WadlGeneratorResourceDocSupportTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/core-server/src/test/java/org/glassfish/jersey/server/wadl/generators/resourcedoc/WadlGeneratorResourceDocSupportTest.java	2015-06-09 17:11:55.869316462 +0200
+@@ -68,7 +68,7 @@
+ 
+ import com.sun.research.ws.wadl.Application;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ public class WadlGeneratorResourceDocSupportTest {
+     @Test
+diff -Nru jersey-2.18/ext/bean-validation/pom.xml jersey-2.18.repackaged/ext/bean-validation/pom.xml
+--- jersey-2.18/ext/bean-validation/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/bean-validation/pom.xml	2015-06-09 17:20:01.774046094 +0200
+@@ -87,7 +87,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionHandler.java jersey-2.18.repackaged/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionHandler.java
+--- jersey-2.18/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionHandler.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionHandler.java	2015-06-09 17:11:56.128304043 +0200
+@@ -57,13 +57,13 @@
+ 
+ import org.glassfish.jersey.internal.util.ReflectionHelper;
+ 
+-import jersey.repackaged.com.google.common.base.Supplier;
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Multimap;
+-import jersey.repackaged.com.google.common.collect.Multimaps;
+-import jersey.repackaged.com.google.common.collect.Queues;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Supplier;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Multimap;
++import com.google.common.collect.Multimaps;
++import com.google.common.collect.Queues;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Handler providing methods to determine whether an executable should be validated during the validation process based on the
+diff -Nru jersey-2.18/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionTraversableResolver.java jersey-2.18.repackaged/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionTraversableResolver.java
+--- jersey-2.18/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionTraversableResolver.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidateOnExecutionTraversableResolver.java	2015-06-09 17:11:56.125304187 +0200
+@@ -51,7 +51,7 @@
+ 
+ import org.glassfish.jersey.internal.util.ReflectionHelper;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * {@link TraversableResolver Traversable resolver} used for handling {@link javax.validation.executable.ValidateOnExecution}
+diff -Nru jersey-2.18/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidationHelper.java jersey-2.18.repackaged/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidationHelper.java
+--- jersey-2.18/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidationHelper.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/bean-validation/src/main/java/org/glassfish/jersey/server/validation/internal/ValidationHelper.java	2015-06-09 17:11:56.127304091 +0200
+@@ -53,8 +53,8 @@
+ 
+ import org.glassfish.jersey.server.validation.ValidationError;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Utility methods for Bean Validation processing.
+diff -Nru jersey-2.18/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/CdiComponentProvider.java jersey-2.18.repackaged/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/CdiComponentProvider.java
+--- jersey-2.18/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/CdiComponentProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/CdiComponentProvider.java	2015-06-09 17:11:56.146303180 +0200
+@@ -773,7 +773,6 @@
+         final String pkgName = pkg.getName();
+         return !clazz.isAnnotationPresent(JerseyVetoed.class)
+                 && (pkgName.contains("org.glassfish.hk2")
+-                            || pkgName.contains("jersey.repackaged")
+                             || pkgName.contains("org.jvnet.hk2")
+                             || (pkgName.startsWith("org.glassfish.jersey")
+                                         && !pkgName.startsWith("org.glassfish.jersey.examples")
+diff -Nru jersey-2.18/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/InjecteeSkippingAnalyzer.java jersey-2.18.repackaged/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/InjecteeSkippingAnalyzer.java
+--- jersey-2.18/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/InjecteeSkippingAnalyzer.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/cdi/jersey-cdi1x/src/main/java/org/glassfish/jersey/ext/cdi1x/internal/InjecteeSkippingAnalyzer.java	2015-06-09 17:11:56.135303707 +0200
+@@ -51,7 +51,7 @@
+ import org.glassfish.hk2.api.ClassAnalyzer;
+ import org.glassfish.hk2.api.MultiException;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Class analyzer that ignores given injection points.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/CommonScopeProvider.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/CommonScopeProvider.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/CommonScopeProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/CommonScopeProvider.java	2015-06-09 17:11:56.074306632 +0200
+@@ -61,8 +61,8 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Default implementation of {@link ScopeProvider scope provider}. This class can be used on client to retrieve
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringHelper.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringHelper.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringHelper.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringHelper.java	2015-06-09 17:11:56.077306489 +0200
+@@ -47,8 +47,8 @@
+ 
+ import org.glassfish.jersey.message.filtering.spi.FilteringHelper;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Utility methods for Entity Data Filtering.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringProcessor.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringProcessor.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringProcessor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityFilteringProcessor.java	2015-06-09 17:11:56.072306728 +0200
+@@ -50,7 +50,7 @@
+ import org.glassfish.jersey.message.filtering.spi.EntityGraph;
+ import org.glassfish.jersey.message.filtering.spi.EntityProcessorContext;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Entity processor handling entity-filtering annotations.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityGraphImpl.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityGraphImpl.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityGraphImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityGraphImpl.java	2015-06-09 17:11:56.073306680 +0200
+@@ -47,11 +47,11 @@
+ import org.glassfish.jersey.message.filtering.spi.EntityGraph;
+ import org.glassfish.jersey.message.filtering.spi.ScopeProvider;
+ 
+-import jersey.repackaged.com.google.common.collect.HashBasedTable;
+-import jersey.repackaged.com.google.common.collect.HashMultimap;
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
+-import jersey.repackaged.com.google.common.collect.Table;
++import com.google.common.collect.HashBasedTable;
++import com.google.common.collect.HashMultimap;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
++import com.google.common.collect.Table;
+ 
+ /**
+  * Default implementation of {@link EntityGraph}.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityInspectorImpl.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityInspectorImpl.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityInspectorImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/EntityInspectorImpl.java	2015-06-09 17:11:56.086306057 +0200
+@@ -63,8 +63,8 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Lists;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Class responsible for inspecting entity classes. This class invokes all available {@link EntityProcessor entity processors} in
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ObjectGraphImpl.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ObjectGraphImpl.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ObjectGraphImpl.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ObjectGraphImpl.java	2015-06-09 17:11:56.074306632 +0200
+@@ -51,9 +51,9 @@
+ import org.glassfish.jersey.message.filtering.spi.ObjectGraph;
+ import org.glassfish.jersey.message.filtering.spi.ScopeProvider;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Default implementation of {@link ObjectGraph}.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityAnnotations.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityAnnotations.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityAnnotations.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityAnnotations.java	2015-06-09 17:11:56.085306105 +0200
+@@ -48,7 +48,7 @@
+ 
+ import org.glassfish.hk2.api.AnnotationLiteral;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Convenience utility methods for creating instances of security annotations.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityHelper.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityHelper.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityHelper.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityHelper.java	2015-06-09 17:11:56.072306728 +0200
+@@ -52,7 +52,7 @@
+ 
+ import org.glassfish.jersey.message.filtering.spi.FilteringHelper;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Utility methods for security Entity Data Filtering.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityServerScopeProvider.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityServerScopeProvider.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityServerScopeProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SecurityServerScopeProvider.java	2015-06-09 17:11:56.076306536 +0200
+@@ -54,7 +54,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableEntityProcessor.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableEntityProcessor.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableEntityProcessor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableEntityProcessor.java	2015-06-09 17:11:56.087306009 +0200
+@@ -49,7 +49,7 @@
+ import org.glassfish.jersey.message.filtering.spi.EntityGraph;
+ import org.glassfish.jersey.message.filtering.spi.EntityProcessor;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ @Singleton
+ @Priority(Integer.MAX_VALUE - 5000)
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableScopeResolver.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableScopeResolver.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableScopeResolver.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/SelectableScopeResolver.java	2015-06-09 17:11:56.085306105 +0200
+@@ -54,7 +54,7 @@
+ import org.glassfish.jersey.internal.util.Tokenizer;
+ import org.glassfish.jersey.message.filtering.spi.ScopeResolver;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ @Singleton
+ public class SelectableScopeResolver implements ScopeResolver {
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ServerScopeProvider.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ServerScopeProvider.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ServerScopeProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/ServerScopeProvider.java	2015-06-09 17:11:56.088305961 +0200
+@@ -63,7 +63,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Server-side implementation of {@link org.glassfish.jersey.message.filtering.spi.ScopeProvider scope provider}. In addition to
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/AbstractObjectProvider.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/AbstractObjectProvider.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/AbstractObjectProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/AbstractObjectProvider.java	2015-06-09 17:11:56.079306393 +0200
+@@ -48,9 +48,9 @@
+ 
+ import javax.inject.Inject;
+ 
+-import jersey.repackaged.com.google.common.cache.Cache;
+-import jersey.repackaged.com.google.common.cache.CacheBuilder;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.cache.Cache;
++import com.google.common.cache.CacheBuilder;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Common implementation of {@link ObjectProvider object provider} and {@link ObjectGraphTransformer object graph transformer}.
+diff -Nru jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/FilteringHelper.java jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/FilteringHelper.java
+--- jersey-2.18/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/FilteringHelper.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/main/java/org/glassfish/jersey/message/filtering/spi/FilteringHelper.java	2015-06-09 17:11:56.082306249 +0200
+@@ -58,7 +58,7 @@
+ import org.glassfish.jersey.internal.util.ReflectionHelper;
+ import org.glassfish.jersey.internal.util.collection.DataStructures;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * SPI utility methods for entity filtering.
+diff -Nru jersey-2.18/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityEntityProcessorTest.java jersey-2.18.repackaged/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityEntityProcessorTest.java
+--- jersey-2.18/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityEntityProcessorTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityEntityProcessorTest.java	2015-06-09 17:11:56.091305817 +0200
+@@ -43,7 +43,7 @@
+ import java.lang.reflect.Field;
+ import java.lang.reflect.Method;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ import org.glassfish.jersey.message.filtering.spi.EntityGraph;
+ import org.glassfish.jersey.message.filtering.spi.EntityProcessor;
+ import org.glassfish.jersey.message.filtering.spi.EntityProcessorContext;
+diff -Nru jersey-2.18/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityHelperTest.java jersey-2.18.repackaged/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityHelperTest.java
+--- jersey-2.18/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityHelperTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/entity-filtering/src/test/java/org/glassfish/jersey/message/filtering/SecurityHelperTest.java	2015-06-09 17:11:56.089305913 +0200
+@@ -55,7 +55,7 @@
+ import static org.hamcrest.CoreMatchers.equalTo;
+ import static org.hamcrest.MatcherAssert.assertThat;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * {@link org.glassfish.jersey.message.filtering.SecurityHelper} unit tests.
+diff -Nru jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateHelper.java jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateHelper.java
+--- jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateHelper.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateHelper.java	2015-06-09 17:11:56.158302604 +0200
+@@ -60,8 +60,8 @@
+ import org.glassfish.jersey.server.mvc.Template;
+ import org.glassfish.jersey.server.mvc.Viewable;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Helper class to provide some common functionality related to MVC.
+diff -Nru jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateModelProcessor.java jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateModelProcessor.java
+--- jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateModelProcessor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/TemplateModelProcessor.java	2015-06-09 17:11:56.161302461 +0200
+@@ -73,7 +73,7 @@
+ import org.glassfish.jersey.server.mvc.Template;
+ import org.glassfish.jersey.server.mvc.Viewable;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * {@link ModelProcessor Model processor} enhancing (sub-)resources with {@value HttpMethod#GET} methods responsible of producing
+diff -Nru jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/ViewableMessageBodyWriter.java jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/ViewableMessageBodyWriter.java
+--- jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/ViewableMessageBodyWriter.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/internal/ViewableMessageBodyWriter.java	2015-06-09 17:11:56.159302556 +0200
+@@ -76,7 +76,7 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * {@link javax.ws.rs.ext.MessageBodyWriter Message body writer} for {@link org.glassfish.jersey.server.mvc.Viewable viewable}
+diff -Nru jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/spi/AbstractTemplateProcessor.java jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/spi/AbstractTemplateProcessor.java
+--- jersey-2.18/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/spi/AbstractTemplateProcessor.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/mvc/src/main/java/org/glassfish/jersey/server/mvc/spi/AbstractTemplateProcessor.java	2015-06-09 17:11:56.156302700 +0200
+@@ -75,9 +75,9 @@
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Collections2;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.base.Function;
++import com.google.common.collect.Collections2;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Default implementation of {@link org.glassfish.jersey.server.mvc.spi.TemplateProcessor template processor} that can be used to
+diff -Nru jersey-2.18/ext/mvc-freemarker/src/main/java/org/glassfish/jersey/server/mvc/freemarker/FreemarkerDefaultConfigurationFactory.java jersey-2.18.repackaged/ext/mvc-freemarker/src/main/java/org/glassfish/jersey/server/mvc/freemarker/FreemarkerDefaultConfigurationFactory.java
+--- jersey-2.18/ext/mvc-freemarker/src/main/java/org/glassfish/jersey/server/mvc/freemarker/FreemarkerDefaultConfigurationFactory.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/mvc-freemarker/src/main/java/org/glassfish/jersey/server/mvc/freemarker/FreemarkerDefaultConfigurationFactory.java	2015-06-09 17:11:56.168302125 +0200
+@@ -53,7 +53,7 @@
+ import freemarker.cache.WebappTemplateLoader;
+ import freemarker.template.Configuration;
+ import org.jvnet.hk2.annotations.Optional;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ 
+ /**
+diff -Nru jersey-2.18/ext/mvc-jsp/pom.xml jersey-2.18.repackaged/ext/mvc-jsp/pom.xml
+--- jersey-2.18/ext/mvc-jsp/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/mvc-jsp/pom.xml	2015-06-09 17:21:27.283962020 +0200
+@@ -89,7 +89,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxInvocationBuilderTest.java jersey-2.18.repackaged/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxInvocationBuilderTest.java
+--- jersey-2.18/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxInvocationBuilderTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxInvocationBuilderTest.java	2015-06-09 17:11:56.202300495 +0200
+@@ -63,7 +63,7 @@
+ import static org.hamcrest.Matchers.notNullValue;
+ import static org.hamcrest.Matchers.nullValue;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTestInvoker.java jersey-2.18.repackaged/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTestInvoker.java
+--- jersey-2.18/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTestInvoker.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTestInvoker.java	2015-06-09 17:11:56.203300447 +0200
+@@ -50,7 +50,7 @@
+ 
+ import org.glassfish.jersey.client.rx.spi.AbstractRxInvoker;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.MoreExecutors;
++import com.google.common.util.concurrent.MoreExecutors;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTest.java jersey-2.18.repackaged/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTest.java
+--- jersey-2.18/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client/src/test/java/org/glassfish/jersey/client/rx/RxTest.java	2015-06-09 17:11:56.201300543 +0200
+@@ -59,7 +59,7 @@
+ import static org.hamcrest.Matchers.not;
+ import static org.hamcrest.core.Is.is;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/rx/rx-client-guava/src/test/java/org/glassfish/jersey/client/rx/guava/RxListenableFutureTest.java jersey-2.18.repackaged/ext/rx/rx-client-guava/src/test/java/org/glassfish/jersey/client/rx/guava/RxListenableFutureTest.java
+--- jersey-2.18/ext/rx/rx-client-guava/src/test/java/org/glassfish/jersey/client/rx/guava/RxListenableFutureTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client-guava/src/test/java/org/glassfish/jersey/client/rx/guava/RxListenableFutureTest.java	2015-06-09 17:11:56.186301262 +0200
+@@ -62,7 +62,7 @@
+ import static org.hamcrest.Matchers.not;
+ import static org.hamcrest.core.Is.is;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/rx/rx-client-java8/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletionStageTest.java jersey-2.18.repackaged/ext/rx/rx-client-java8/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletionStageTest.java
+--- jersey-2.18/ext/rx/rx-client-java8/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletionStageTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client-java8/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletionStageTest.java	2015-06-09 17:11:56.189301118 +0200
+@@ -62,7 +62,7 @@
+ import static org.hamcrest.Matchers.not;
+ import static org.hamcrest.core.Is.is;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/JerseyRxCompletableFutureInvoker.java jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/JerseyRxCompletableFutureInvoker.java
+--- jersey-2.18/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/JerseyRxCompletableFutureInvoker.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/JerseyRxCompletableFutureInvoker.java	2015-06-09 17:11:56.190301070 +0200
+@@ -48,7 +48,7 @@
+ 
+ import org.glassfish.jersey.client.rx.spi.AbstractRxInvoker;
+ 
+-import jersey.repackaged.jsr166e.CompletableFuture;
++import jsr166e.CompletableFuture;
+ 
+ /**
+  * Implementation of Reactive Invoker for {@code CompletableFuture}.
+diff -Nru jersey-2.18/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFutureInvoker.java jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFutureInvoker.java
+--- jersey-2.18/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFutureInvoker.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFutureInvoker.java	2015-06-09 17:11:56.189301118 +0200
+@@ -46,10 +46,10 @@
+ 
+ import org.glassfish.jersey.client.rx.RxInvoker;
+ 
+-import jersey.repackaged.jsr166e.CompletableFuture;
++import jsr166e.CompletableFuture;
+ 
+ /**
+- * Reactive invoker providing support for {@link jersey.repackaged.jsr166e.CompletableFuture CompletableFuture} from JSR-166e
++ * Reactive invoker providing support for {@link jsr166e.CompletableFuture CompletableFuture} from JSR-166e
+  * (pre-Java 8).
+  *
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFuture.java jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFuture.java
+--- jersey-2.18/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFuture.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/main/java/org/glassfish/jersey/client/rx/jsr166e/RxCompletableFuture.java	2015-06-09 17:11:56.191301022 +0200
+@@ -52,7 +52,7 @@
+ /**
+  * Main entry point to the Reactive Client API used to bootstrap {@link org.glassfish.jersey.client.rx.RxClient reactive client}
+  * or {@link org.glassfish.jersey.client.rx.RxWebTarget reactive client target} instances based on JSR-166e's (pre-Java 8)
+- * {@link jersey.repackaged.jsr166e.CompletableFuture completable future}.
++ * {@link jsr166e.CompletableFuture completable future}.
+  *
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+  * @see org.glassfish.jersey.client.rx.Rx
+@@ -62,9 +62,9 @@
+ 
+     /**
+      * Create a new {@link org.glassfish.jersey.client.rx.RxClient reactive client} instance parametrized with invoker based on
+-     * the {@link jersey.repackaged.jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
++     * the {@link jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
+      * invoked using {@link org.glassfish.jersey.client.rx.RxInvocationBuilder#rx() rx(...)} methods, are executed via
+-     * {@link jersey.repackaged.jsr166e.ForkJoinPool#commonPool() "common thread pool" service}.
++     * {@link jsr166e.ForkJoinPool#commonPool() "common thread pool" service}.
+      * <p/>
+      * Instance is initialized with a JAX-RS client created using the default client builder implementation class provided by the
+      * JAX-RS implementation provider.
+@@ -78,7 +78,7 @@
+ 
+     /**
+      * Create a new {@link org.glassfish.jersey.client.rx.RxClient reactive client} instance parametrized with invoker based on
+-     * the {@link jersey.repackaged.jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
++     * the {@link jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
+      * invoked using {@link org.glassfish.jersey.client.rx.RxInvocationBuilder#rx() rx(...)} method, are executed via given
+      * {@link java.util.concurrent.ExecutorService executor service}.
+      * <p/>
+@@ -95,11 +95,11 @@
+ 
+     /**
+      * Create a new {@link org.glassfish.jersey.client.rx.RxClient reactive client} instance initialized with given JAX-RS client
+-     * instance and parametrized with invoker based on the {@link jersey.repackaged.jsr166e.CompletableFuture completable
++     * instance and parametrized with invoker based on the {@link jsr166e.CompletableFuture completable
+      * future} from
+      * JSR-166e (pre-Java 8). Reactive requests, invoked using
+      * {@link org.glassfish.jersey.client.rx.RxInvocationBuilder#rx() rx(...)} methods, are executed via
+-     * {@link jersey.repackaged.jsr166e.ForkJoinPool#commonPool() "common thread pool" service}.
++     * {@link jsr166e.ForkJoinPool#commonPool() "common thread pool" service}.
+      *
+      * @param client the JAX-RS client used to initialize new reactive client extension.
+      * @return new reactive client extension.
+@@ -111,7 +111,7 @@
+ 
+     /**
+      * Create a new {@link org.glassfish.jersey.client.rx.RxClient reactive client} instance initialized with given JAX-RS client
+-     * instance and parametrized with invoker based on the {@link jersey.repackaged.jsr166e.CompletableFuture completable
++     * instance and parametrized with invoker based on the {@link jsr166e.CompletableFuture completable
+      * future} from
+      * JSR-166e (pre-Java 8). Reactive requests, invoked using
+      * {@link org.glassfish.jersey.client.rx.RxInvocationBuilder#rx() rx(...)} method, are executed via given
+@@ -129,10 +129,10 @@
+     /**
+      * Create a new {@link org.glassfish.jersey.client.rx.RxWebTarget reactive client target} instance initialized with given
+      * JAX-RS client web target instance and parametrized with invoker based on the
+-     * {@link jersey.repackaged.jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
++     * {@link jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
+      * invoked using
+      * {@link org.glassfish.jersey.client.rx.RxInvocationBuilder#rx() rx(...)} methods, are executed via
+-     * {@link jersey.repackaged.jsr166e.ForkJoinPool#commonPool() "common thread pool" service}.
++     * {@link jsr166e.ForkJoinPool#commonPool() "common thread pool" service}.
+      *
+      * @param target the JAX-RS client target used to initialize new reactive client target extension.
+      * @return new reactive client target extension.
+@@ -145,7 +145,7 @@
+     /**
+      * Create a new {@link org.glassfish.jersey.client.rx.RxWebTarget reactive client target} instance initialized with given
+      * JAX-RS client web target instance and parametrized with invoker based on the
+-     * {@link jersey.repackaged.jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
++     * {@link jsr166e.CompletableFuture completable future} from JSR-166e (pre-Java 8). Reactive requests,
+      * invoked using
+      * {@link org.glassfish.jersey.client.rx.RxInvocationBuilder#rx() rx(...)} method, are executed via given
+      * {@link java.util.concurrent.ExecutorService executor service}.
+diff -Nru jersey-2.18/ext/rx/rx-client-jsr166e/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletableFutureTest.java jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletableFutureTest.java
+--- jersey-2.18/ext/rx/rx-client-jsr166e/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletableFutureTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client-jsr166e/src/test/java/org/glassfish/jersey/client/rx/java8/RxCompletableFutureTest.java	2015-06-09 17:11:56.191301022 +0200
+@@ -64,7 +64,7 @@
+ import static org.hamcrest.Matchers.not;
+ import static org.hamcrest.core.Is.is;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/ext/rx/rx-client-rxjava/src/test/java/org/glassfish/jersey/client/rx/rxjava/RxObservableTest.java jersey-2.18.repackaged/ext/rx/rx-client-rxjava/src/test/java/org/glassfish/jersey/client/rx/rxjava/RxObservableTest.java
+--- jersey-2.18/ext/rx/rx-client-rxjava/src/test/java/org/glassfish/jersey/client/rx/rxjava/RxObservableTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/ext/rx/rx-client-rxjava/src/test/java/org/glassfish/jersey/client/rx/rxjava/RxObservableTest.java	2015-06-09 17:11:56.183301406 +0200
+@@ -62,7 +62,7 @@
+ import static org.hamcrest.Matchers.containsString;
+ import static org.hamcrest.core.Is.is;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.ThreadFactoryBuilder;
++import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ import rx.Subscriber;
+ 
+ /**
+diff -Nru jersey-2.18/media/jaxb/pom.xml jersey-2.18.repackaged/media/jaxb/pom.xml
+--- jersey-2.18/media/jaxb/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/jaxb/pom.xml	2015-06-09 17:22:08.633987085 +0200
+@@ -149,7 +149,7 @@
+             <artifactId>hk2-api</artifactId>
+         </dependency>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/media/moxy/src/main/java/org/glassfish/jersey/moxy/internal/MoxyObjectProvider.java jersey-2.18.repackaged/media/moxy/src/main/java/org/glassfish/jersey/moxy/internal/MoxyObjectProvider.java
+--- jersey-2.18/media/moxy/src/main/java/org/glassfish/jersey/moxy/internal/MoxyObjectProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/moxy/src/main/java/org/glassfish/jersey/moxy/internal/MoxyObjectProvider.java	2015-06-09 17:11:56.208300207 +0200
+@@ -55,7 +55,7 @@
+ import org.eclipse.persistence.jaxb.Subgraph;
+ import org.eclipse.persistence.jaxb.TypeMappingInfo;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * @author Michal Gajdos (michal.gajdos at oracle.com)
+diff -Nru jersey-2.18/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/internal/ConfigurableMoxyJsonProvider.java jersey-2.18.repackaged/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/internal/ConfigurableMoxyJsonProvider.java
+--- jersey-2.18/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/internal/ConfigurableMoxyJsonProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/internal/ConfigurableMoxyJsonProvider.java	2015-06-09 17:11:56.211300063 +0200
+@@ -68,8 +68,8 @@
+ import org.eclipse.persistence.jaxb.UnmarshallerProperties;
+ import org.eclipse.persistence.jaxb.rs.MOXyJsonProvider;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Jersey specific {@link MOXyJsonProvider} that can be configured via {@code ContextResolver<JsonMoxyConfiguration>} instance.
+diff -Nru jersey-2.18/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/MoxyJsonConfig.java jersey-2.18.repackaged/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/MoxyJsonConfig.java
+--- jersey-2.18/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/MoxyJsonConfig.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/moxy/src/main/java/org/glassfish/jersey/moxy/json/MoxyJsonConfig.java	2015-06-09 17:11:56.210300111 +0200
+@@ -49,7 +49,7 @@
+ import org.eclipse.persistence.jaxb.UnmarshallerProperties;
+ import org.eclipse.persistence.oxm.XMLConstants;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Configuration class for MOXy JSON provider.
+diff -Nru jersey-2.18/media/multipart/src/main/java/org/glassfish/jersey/media/multipart/internal/FormDataParamValueFactoryProvider.java jersey-2.18.repackaged/media/multipart/src/main/java/org/glassfish/jersey/media/multipart/internal/FormDataParamValueFactoryProvider.java
+--- jersey-2.18/media/multipart/src/main/java/org/glassfish/jersey/media/multipart/internal/FormDataParamValueFactoryProvider.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/multipart/src/main/java/org/glassfish/jersey/media/multipart/internal/FormDataParamValueFactoryProvider.java	2015-06-09 17:11:56.245298433 +0200
+@@ -82,8 +82,8 @@
+ 
+ import org.jvnet.mimepull.MIMEParsingException;
+ 
+-import jersey.repackaged.com.google.common.base.Function;
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.base.Function;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Value factory provider supporting the {@link FormDataParam} injection annotation and entity ({@link FormDataMultiPart})
+diff -Nru jersey-2.18/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartBufferTest.java jersey-2.18.repackaged/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartBufferTest.java
+--- jersey-2.18/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartBufferTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartBufferTest.java	2015-06-09 17:11:56.259297761 +0200
+@@ -65,7 +65,7 @@
+ import static org.junit.Assert.assertNotNull;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Test cases for inspecting an {@code FormDataMultiPart} entity in a {@code RequestFilter} and following injection of this
+diff -Nru jersey-2.18/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartReaderWriterTest.java jersey-2.18.repackaged/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartReaderWriterTest.java
+--- jersey-2.18/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartReaderWriterTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/multipart/src/test/java/org/glassfish/jersey/media/multipart/internal/FormDataMultiPartReaderWriterTest.java	2015-06-09 17:11:56.257297857 +0200
+@@ -91,7 +91,7 @@
+ import static org.junit.Assert.assertTrue;
+ import static org.junit.Assert.fail;
+ 
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Sets;
+ import mockit.Expectations;
+ import mockit.Mocked;
+ import mockit.Verifications;
+diff -Nru jersey-2.18/media/sse/pom.xml jersey-2.18.repackaged/media/sse/pom.xml
+--- jersey-2.18/media/sse/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/media/sse/pom.xml	2015-06-09 17:22:29.554987869 +0200
+@@ -59,7 +59,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>org.glassfish.hk2.external</groupId>
++            <groupId>javax.inject</groupId>
+             <artifactId>javax.inject</artifactId>
+         </dependency>
+         <dependency>
+diff -Nru jersey-2.18/pom.xml jersey-2.18.repackaged/pom.xml
+--- jersey-2.18/pom.xml	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/pom.xml	2015-06-09 17:25:26.798522469 +0200
+@@ -1154,20 +1154,14 @@
+                 <version>1.0.1</version>
+             </dependency>
+             <dependency>
+-                <groupId>org.glassfish.hk2.external</groupId>
++                <groupId>javax.inject</groupId>
+                 <artifactId>javax.inject</artifactId>
+-                <version>${hk2.version}</version>
+-                <exclusions>
+-                    <exclusion>
+-                        <groupId>javax.inject</groupId>
+-                        <artifactId>javax.inject</artifactId>
+-                    </exclusion>
+-                </exclusions>
++                <version>1</version>
+             </dependency>
+             <dependency>
+-                <groupId>org.glassfish.hk2.external</groupId>
+-                <artifactId>aopalliance-repackaged</artifactId>
+-                <version>${hk2.version}</version>
++                <groupId>aopalliance</groupId>
++                <artifactId>aopalliance</artifactId>
++                <version>1.0</version>
+             </dependency>
+             <dependency>
+                 <groupId>org.ow2.asm</groupId>
+diff -Nru jersey-2.18/security/oauth1-client/src/main/java/org/glassfish/jersey/client/oauth1/RequestWrapper.java jersey-2.18.repackaged/security/oauth1-client/src/main/java/org/glassfish/jersey/client/oauth1/RequestWrapper.java
+--- jersey-2.18/security/oauth1-client/src/main/java/org/glassfish/jersey/client/oauth1/RequestWrapper.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/security/oauth1-client/src/main/java/org/glassfish/jersey/client/oauth1/RequestWrapper.java	2015-06-09 17:11:56.272297138 +0200
+@@ -56,7 +56,7 @@
+ import org.glassfish.jersey.message.MessageBodyWorkers;
+ import org.glassfish.jersey.oauth1.signature.OAuth1Request;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
++import com.google.common.collect.Lists;
+ 
+ /**
+  * Implements the OAuth signature library Request interface, wrapping a Jersey
+diff -Nru jersey-2.18/security/oauth2-client/src/main/java/org/glassfish/jersey/client/oauth2/OAuth2FlowFacebookBuilder.java jersey-2.18.repackaged/security/oauth2-client/src/main/java/org/glassfish/jersey/client/oauth2/OAuth2FlowFacebookBuilder.java
+--- jersey-2.18/security/oauth2-client/src/main/java/org/glassfish/jersey/client/oauth2/OAuth2FlowFacebookBuilder.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/security/oauth2-client/src/main/java/org/glassfish/jersey/client/oauth2/OAuth2FlowFacebookBuilder.java	2015-06-09 17:11:56.287296419 +0200
+@@ -55,7 +55,7 @@
+ 
+ import org.glassfish.jersey.message.internal.ReaderWriter;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
++import com.google.common.collect.Maps;
+ 
+ /**
+  * Class that provides methods to build {@link OAuth2CodeGrantFlow} pre-configured for usage
+diff -Nru jersey-2.18/test-framework/core/src/main/java/org/glassfish/jersey/test/JerseyTest.java jersey-2.18.repackaged/test-framework/core/src/main/java/org/glassfish/jersey/test/JerseyTest.java
+--- jersey-2.18/test-framework/core/src/main/java/org/glassfish/jersey/test/JerseyTest.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/test-framework/core/src/main/java/org/glassfish/jersey/test/JerseyTest.java	2015-06-09 17:11:56.006309893 +0200
+@@ -73,8 +73,8 @@
+ import org.junit.After;
+ import org.junit.Before;
+ 
+-import jersey.repackaged.com.google.common.collect.Maps;
+-import jersey.repackaged.com.google.common.collect.Sets;
++import com.google.common.collect.Maps;
++import com.google.common.collect.Sets;
+ 
+ /**
+  * Parent class for testing JAX-RS and Jersey-based applications using Jersey test framework.
+diff -Nru jersey-2.18/test-framework/providers/inmemory/src/main/java/org/glassfish/jersey/test/inmemory/InMemoryConnector.java jersey-2.18.repackaged/test-framework/providers/inmemory/src/main/java/org/glassfish/jersey/test/inmemory/InMemoryConnector.java
+--- jersey-2.18/test-framework/providers/inmemory/src/main/java/org/glassfish/jersey/test/inmemory/InMemoryConnector.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/test-framework/providers/inmemory/src/main/java/org/glassfish/jersey/test/inmemory/InMemoryConnector.java	2015-06-09 17:11:56.022309126 +0200
+@@ -73,8 +73,8 @@
+ import org.glassfish.jersey.server.ContainerResponse;
+ import org.glassfish.jersey.server.spi.ContainerResponseWriter;
+ 
+-import jersey.repackaged.com.google.common.collect.Lists;
+-import jersey.repackaged.com.google.common.util.concurrent.MoreExecutors;
++import com.google.common.collect.Lists;
++import com.google.common.util.concurrent.MoreExecutors;
+ 
+ /**
+  * In-memory client connector.
+diff -Nru jersey-2.18/test-framework/util/src/main/java/org/glassfish/jersey/test/util/client/LoopBackConnector.java jersey-2.18.repackaged/test-framework/util/src/main/java/org/glassfish/jersey/test/util/client/LoopBackConnector.java
+--- jersey-2.18/test-framework/util/src/main/java/org/glassfish/jersey/test/util/client/LoopBackConnector.java	2015-06-03 19:07:50.000000000 +0200
++++ jersey-2.18.repackaged/test-framework/util/src/main/java/org/glassfish/jersey/test/util/client/LoopBackConnector.java	2015-06-09 17:11:56.303295652 +0200
+@@ -56,7 +56,7 @@
+ import org.glassfish.jersey.message.internal.HeaderUtils;
+ import org.glassfish.jersey.message.internal.OutboundMessageContext;
+ 
+-import jersey.repackaged.com.google.common.util.concurrent.MoreExecutors;
++import com.google.common.util.concurrent.MoreExecutors;
+ 
+ /**
+  * Loop-Back connector used for testing/benchmarking purposes. It returns a response that contains the same data (headers, entity)

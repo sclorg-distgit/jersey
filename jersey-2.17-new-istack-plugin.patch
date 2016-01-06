@@ -1,0 +1,422 @@
+diff -Nru jersey-2.17/connectors/apache-connector/pom.xml jersey-2.17.istack-plugin/connectors/apache-connector/pom.xml
+--- jersey-2.17/connectors/apache-connector/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/connectors/apache-connector/pom.xml	2015-05-23 20:13:03.427557793 +0200
+@@ -89,7 +89,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/connectors/grizzly-connector/pom.xml jersey-2.17.istack-plugin/connectors/grizzly-connector/pom.xml
+--- jersey-2.17/connectors/grizzly-connector/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/connectors/grizzly-connector/pom.xml	2015-05-23 20:13:03.427557793 +0200
+@@ -83,7 +83,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/connectors/jetty-connector/pom.xml jersey-2.17.istack-plugin/connectors/jetty-connector/pom.xml
+--- jersey-2.17/connectors/jetty-connector/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/connectors/jetty-connector/pom.xml	2015-05-23 20:13:03.427557793 +0200
+@@ -94,7 +94,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/containers/glassfish/jersey-gf-ejb/pom.xml jersey-2.17.istack-plugin/containers/glassfish/jersey-gf-ejb/pom.xml
+--- jersey-2.17/containers/glassfish/jersey-gf-ejb/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/containers/glassfish/jersey-gf-ejb/pom.xml	2015-05-23 20:13:03.487554521 +0200
+@@ -101,7 +101,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/containers/grizzly2-http/pom.xml jersey-2.17.istack-plugin/containers/grizzly2-http/pom.xml
+--- jersey-2.17/containers/grizzly2-http/pom.xml	2015-05-23 20:14:23.274203955 +0200
++++ jersey-2.17.istack-plugin/containers/grizzly2-http/pom.xml	2015-05-23 20:13:03.486554576 +0200
+@@ -70,7 +70,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/containers/jdk-http/pom.xml jersey-2.17.istack-plugin/containers/jdk-http/pom.xml
+--- jersey-2.17/containers/jdk-http/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/containers/jdk-http/pom.xml	2015-05-23 20:13:03.487554521 +0200
+@@ -67,7 +67,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+ 
+diff -Nru jersey-2.17/containers/jersey-servlet/pom.xml jersey-2.17.istack-plugin/containers/jersey-servlet/pom.xml
+--- jersey-2.17/containers/jersey-servlet/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/containers/jersey-servlet/pom.xml	2015-05-23 20:13:03.490554358 +0200
+@@ -80,7 +80,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/containers/jersey-servlet-core/pom.xml jersey-2.17.istack-plugin/containers/jersey-servlet-core/pom.xml
+--- jersey-2.17/containers/jersey-servlet-core/pom.xml	2015-05-23 20:14:23.275203901 +0200
++++ jersey-2.17.istack-plugin/containers/jersey-servlet-core/pom.xml	2015-05-23 20:13:03.488554467 +0200
+@@ -76,7 +76,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/containers/jetty-http/pom.xml jersey-2.17.istack-plugin/containers/jetty-http/pom.xml
+--- jersey-2.17/containers/jetty-http/pom.xml	2015-05-23 20:14:23.276203846 +0200
++++ jersey-2.17.istack-plugin/containers/jetty-http/pom.xml	2015-05-23 20:13:03.486554576 +0200
+@@ -79,7 +79,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/containers/simple-http/pom.xml jersey-2.17.istack-plugin/containers/simple-http/pom.xml
+--- jersey-2.17/containers/simple-http/pom.xml	2015-05-23 20:14:23.277203792 +0200
++++ jersey-2.17.istack-plugin/containers/simple-http/pom.xml	2015-05-23 20:13:03.489554412 +0200
+@@ -70,7 +70,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/core-client/pom.xml jersey-2.17.istack-plugin/core-client/pom.xml
+--- jersey-2.17/core-client/pom.xml	2015-05-23 20:14:23.277203792 +0200
++++ jersey-2.17.istack-plugin/core-client/pom.xml	2015-05-23 20:13:03.480554903 +0200
+@@ -60,7 +60,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/core-common/pom.xml jersey-2.17.istack-plugin/core-common/pom.xml
+--- jersey-2.17/core-common/pom.xml	2015-05-23 20:14:23.281203573 +0200
++++ jersey-2.17.istack-plugin/core-common/pom.xml	2015-05-23 20:13:03.383560192 +0200
+@@ -89,7 +89,7 @@
+             </plugin>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/core-server/pom.xml jersey-2.17.istack-plugin/core-server/pom.xml
+--- jersey-2.17/core-server/pom.xml	2015-05-23 20:14:23.293202919 +0200
++++ jersey-2.17.istack-plugin/core-server/pom.xml	2015-05-23 20:13:03.382560246 +0200
+@@ -67,7 +67,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/bean-validation/pom.xml jersey-2.17.istack-plugin/ext/bean-validation/pom.xml
+--- jersey-2.17/ext/bean-validation/pom.xml	2015-05-23 20:14:23.311201938 +0200
++++ jersey-2.17.istack-plugin/ext/bean-validation/pom.xml	2015-05-23 20:13:03.432557520 +0200
+@@ -60,7 +60,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/cdi/jersey-cdi1x/pom.xml jersey-2.17.istack-plugin/ext/cdi/jersey-cdi1x/pom.xml
+--- jersey-2.17/ext/cdi/jersey-cdi1x/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/cdi/jersey-cdi1x/pom.xml	2015-05-23 20:13:03.436557302 +0200
+@@ -80,7 +80,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/cdi/jersey-cdi1x-servlet/pom.xml jersey-2.17.istack-plugin/ext/cdi/jersey-cdi1x-servlet/pom.xml
+--- jersey-2.17/ext/cdi/jersey-cdi1x-servlet/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/cdi/jersey-cdi1x-servlet/pom.xml	2015-05-23 20:13:03.437557248 +0200
+@@ -84,7 +84,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/cdi/jersey-cdi1x-transaction/pom.xml jersey-2.17.istack-plugin/ext/cdi/jersey-cdi1x-transaction/pom.xml
+--- jersey-2.17/ext/cdi/jersey-cdi1x-transaction/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/cdi/jersey-cdi1x-transaction/pom.xml	2015-05-23 20:13:03.435557357 +0200
+@@ -83,7 +83,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/entity-filtering/pom.xml jersey-2.17.istack-plugin/ext/entity-filtering/pom.xml
+--- jersey-2.17/ext/entity-filtering/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/entity-filtering/pom.xml	2015-05-23 20:13:03.435557357 +0200
+@@ -83,7 +83,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/metainf-services/pom.xml jersey-2.17.istack-plugin/ext/metainf-services/pom.xml
+--- jersey-2.17/ext/metainf-services/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/metainf-services/pom.xml	2015-05-23 20:13:03.431557575 +0200
+@@ -75,7 +75,7 @@
+             </plugin>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/mvc/pom.xml jersey-2.17.istack-plugin/ext/mvc/pom.xml
+--- jersey-2.17/ext/mvc/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/mvc/pom.xml	2015-05-23 20:13:03.433557466 +0200
+@@ -74,7 +74,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/mvc-jsp/pom.xml jersey-2.17.istack-plugin/ext/mvc-jsp/pom.xml
+--- jersey-2.17/ext/mvc-jsp/pom.xml	2015-05-23 20:14:23.318201556 +0200
++++ jersey-2.17.istack-plugin/ext/mvc-jsp/pom.xml	2015-05-23 20:13:03.437557248 +0200
+@@ -60,7 +60,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/servlet-portability/pom.xml jersey-2.17.istack-plugin/ext/servlet-portability/pom.xml
+--- jersey-2.17/ext/servlet-portability/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/servlet-portability/pom.xml	2015-05-23 20:13:03.431557575 +0200
+@@ -59,7 +59,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/ext/spring3/pom.xml jersey-2.17.istack-plugin/ext/spring3/pom.xml
+--- jersey-2.17/ext/spring3/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/ext/spring3/pom.xml	2015-05-23 20:13:03.434557411 +0200
+@@ -178,7 +178,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/media/jaxb/pom.xml jersey-2.17.istack-plugin/media/jaxb/pom.xml
+--- jersey-2.17/media/jaxb/pom.xml	2015-05-23 20:14:23.320201447 +0200
++++ jersey-2.17.istack-plugin/media/jaxb/pom.xml	2015-05-23 20:13:03.484554685 +0200
+@@ -82,7 +82,7 @@
+             </plugin>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/media/json-jackson/pom.xml jersey-2.17.istack-plugin/media/json-jackson/pom.xml
+--- jersey-2.17/media/json-jackson/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/media/json-jackson/pom.xml	2015-05-23 20:13:03.483554739 +0200
+@@ -61,7 +61,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/media/json-jackson1/pom.xml jersey-2.17.istack-plugin/media/json-jackson1/pom.xml
+--- jersey-2.17/media/json-jackson1/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/media/json-jackson1/pom.xml	2015-05-23 20:13:03.482554794 +0200
+@@ -61,7 +61,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/media/json-jettison/pom.xml jersey-2.17.istack-plugin/media/json-jettison/pom.xml
+--- jersey-2.17/media/json-jettison/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/media/json-jettison/pom.xml	2015-05-23 20:13:03.482554794 +0200
+@@ -61,7 +61,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/media/json-processing/pom.xml jersey-2.17.istack-plugin/media/json-processing/pom.xml
+--- jersey-2.17/media/json-processing/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/media/json-processing/pom.xml	2015-05-23 20:13:03.484554685 +0200
+@@ -61,7 +61,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/media/moxy/pom.xml jersey-2.17.istack-plugin/media/moxy/pom.xml
+--- jersey-2.17/media/moxy/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/media/moxy/pom.xml	2015-05-23 20:13:03.481554848 +0200
+@@ -61,7 +61,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+ 
+diff -Nru jersey-2.17/media/multipart/pom.xml jersey-2.17.istack-plugin/media/multipart/pom.xml
+--- jersey-2.17/media/multipart/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/media/multipart/pom.xml	2015-05-23 20:13:03.482554794 +0200
+@@ -61,7 +61,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/media/sse/pom.xml jersey-2.17.istack-plugin/media/sse/pom.xml
+--- jersey-2.17/media/sse/pom.xml	2015-05-23 20:14:23.322201338 +0200
++++ jersey-2.17.istack-plugin/media/sse/pom.xml	2015-05-23 20:13:03.483554739 +0200
+@@ -78,7 +78,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/pom.xml jersey-2.17.istack-plugin/pom.xml
+--- jersey-2.17/pom.xml	2015-05-23 20:14:23.323201283 +0200
++++ jersey-2.17.istack-plugin/pom.xml	2015-05-23 20:14:13.661728099 +0200
+@@ -218,8 +218,8 @@
+                 </plugin>
+                 <plugin>
+                     <groupId>com.sun.istack</groupId>
+-                    <artifactId>maven-istack-commons-plugin</artifactId>
+-                    <version>2.6.1</version>
++                    <artifactId>istack-commons-maven-plugin</artifactId>
++                    <version>2.17</version>
+                     <executions>
+                         <execution>
+                             <phase>generate-sources</phase>
+diff -Nru jersey-2.17/security/oauth1-client/pom.xml jersey-2.17.istack-plugin/security/oauth1-client/pom.xml
+--- jersey-2.17/security/oauth1-client/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/security/oauth1-client/pom.xml	2015-05-23 20:13:03.468555557 +0200
+@@ -63,7 +63,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/security/oauth1-signature/pom.xml jersey-2.17.istack-plugin/security/oauth1-signature/pom.xml
+--- jersey-2.17/security/oauth1-signature/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/security/oauth1-signature/pom.xml	2015-05-23 20:13:03.469555503 +0200
+@@ -56,7 +56,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
+diff -Nru jersey-2.17/security/oauth2-client/pom.xml jersey-2.17.istack-plugin/security/oauth2-client/pom.xml
+--- jersey-2.17/security/oauth2-client/pom.xml	2015-03-11 13:39:18.000000000 +0100
++++ jersey-2.17.istack-plugin/security/oauth2-client/pom.xml	2015-05-23 20:13:03.468555557 +0200
+@@ -56,7 +56,7 @@
+         <plugins>
+             <plugin>
+                 <groupId>com.sun.istack</groupId>
+-                <artifactId>maven-istack-commons-plugin</artifactId>
++                <artifactId>istack-commons-maven-plugin</artifactId>
+                 <inherited>true</inherited>
+             </plugin>
+             <plugin>
