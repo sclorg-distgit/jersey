@@ -1,0 +1,914 @@
+diff -Nru jersey-2.22.2/containers/simple-http/pom.xml jersey-2.22.2.simple/containers/simple-http/pom.xml
+--- jersey-2.22.2/containers/simple-http/pom.xml	2016-02-16 13:27:12.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/pom.xml	2016-02-18 22:15:26.795599343 +0100
+@@ -61,7 +61,15 @@
+         </dependency>
+         <dependency>
+             <groupId>org.simpleframework</groupId>
+-            <artifactId>simple</artifactId>
++            <artifactId>simple-common</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.simpleframework</groupId>
++            <artifactId>simple-http</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.simpleframework</groupId>
++            <artifactId>simple-transport</artifactId>
+         </dependency>
+     </dependencies>
+ 
+diff -Nru jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainerFactory.java jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainerFactory.java
+--- jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainerFactory.java	2016-02-16 13:27:12.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainerFactory.java	2016-02-18 22:15:26.950590617 +0100
+@@ -57,8 +57,8 @@
+ import org.glassfish.hk2.api.ServiceLocator;
+ 
+ import org.simpleframework.http.core.Container;
+-import org.simpleframework.http.core.ContainerServer;
+-import org.simpleframework.transport.Server;
++import org.simpleframework.http.core.ContainerSocketProcessor;
++import org.simpleframework.transport.SocketProcessor;
+ import org.simpleframework.transport.connect.Connection;
+ import org.simpleframework.transport.connect.SocketConnection;
+ 
+@@ -180,10 +180,10 @@
+     public static SimpleServer create(final URI address,
+                                       final SSLContext context,
+                                       final SimpleContainer container) {
+-        return _create(address, context, container, new UnsafeValue<Server, IOException>() {
++        return _create(address, context, container, new UnsafeValue<SocketProcessor, IOException>() {
+             @Override
+-            public Server get() throws IOException {
+-                return new ContainerServer(container);
++            public SocketProcessor get() throws IOException {
++                return new ContainerSocketProcessor(container);
+             }
+         });
+     }
+@@ -241,10 +241,10 @@
+                                    final int count,
+                                    final int select) throws ProcessingException {
+ 
+-        return _create(address, context, container, new UnsafeValue<Server, IOException>() {
++        return _create(address, context, container, new UnsafeValue<SocketProcessor, IOException>() {
+             @Override
+-            public Server get() throws IOException {
+-                return new ContainerServer(container, count, select);
++            public SocketProcessor get() throws IOException {
++                return new ContainerSocketProcessor(container, count, select);
+             }
+         });
+     }
+@@ -252,7 +252,7 @@
+     private static SimpleServer _create(final URI address,
+                                      final SSLContext context,
+                                      final SimpleContainer container,
+-                                     final UnsafeValue<Server, IOException> serverProvider) throws ProcessingException {
++                                     final UnsafeValue<SocketProcessor, IOException> serverProvider) throws ProcessingException {
+         if (address == null) {
+             throw new IllegalArgumentException(LocalizationMessages.URI_CANNOT_BE_NULL());
+         }
+@@ -277,8 +277,9 @@
+         final InetSocketAddress listen = new InetSocketAddress(port);
+         final Connection connection;
+         try {
+-            final Server server = serverProvider.get();
+-            connection = new SocketConnection(server);
++            final SimpleTraceAnalyzer analyzer = new SimpleTraceAnalyzer();
++            final SocketProcessor server = serverProvider.get();
++            connection = new SocketConnection(server, analyzer);
+ 
+             final SocketAddress socketAddr = connection.connect(listen, context);
+             container.onServerStart();
+@@ -288,6 +289,7 @@
+                 @Override
+                 public void close() throws IOException {
+                     container.onServerStop();
++                    analyzer.stop();
+                     connection.close();
+                 }
+ 
+@@ -295,6 +297,21 @@
+                 public int getPort() {
+                     return ((InetSocketAddress) socketAddr).getPort();
+                 }
++
++                @Override
++                public boolean isDebug() {
++                    return analyzer.isActive();
++                }
++
++                @Override
++                public void setDebug(boolean enable) {
++                    if(enable) {
++                        analyzer.start();
++                    } else {
++                        analyzer.stop();
++                    }
++                }
++
+             };
+         } catch (final IOException ex) {
+             throw new ProcessingException(LocalizationMessages.ERROR_WHEN_CREATING_SERVER(), ex);
+diff -Nru jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainer.java jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainer.java
+--- jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainer.java	2016-02-16 13:27:12.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleContainer.java	2016-02-18 22:15:26.950590617 +0100
+@@ -47,7 +47,11 @@
+ import java.security.Principal;
+ import java.util.List;
+ import java.util.Map;
++import java.util.concurrent.ScheduledExecutorService;
++import java.util.concurrent.ScheduledFuture;
++import java.util.concurrent.ScheduledThreadPoolExecutor;
+ import java.util.concurrent.TimeUnit;
++import java.util.concurrent.atomic.AtomicReference;
+ import java.util.logging.Level;
+ import java.util.logging.Logger;
+ 
+@@ -70,16 +74,20 @@
+ import org.glassfish.jersey.server.internal.ContainerUtils;
+ import org.glassfish.jersey.server.spi.Container;
+ import org.glassfish.jersey.server.spi.ContainerResponseWriter;
++import org.glassfish.jersey.server.spi.ContainerResponseWriter.TimeoutHandler;
+ import org.glassfish.jersey.server.spi.RequestScopedInitializer;
+ 
+ import org.glassfish.hk2.api.ServiceLocator;
+ import org.glassfish.hk2.api.TypeLiteral;
+ import org.glassfish.hk2.utilities.binding.AbstractBinder;
+ 
++import org.simpleframework.common.thread.DaemonFactory;
+ import org.simpleframework.http.Address;
++import org.simpleframework.http.Protocol;
+ import org.simpleframework.http.Request;
+ import org.simpleframework.http.Response;
+ import org.simpleframework.http.Status;
++import org.simpleframework.http.parse.PrincipalParser;
+ 
+ /**
+  * Jersey {@code Container} implementation based on Simple framework {@link org.simpleframework.http.core.Container}.
+@@ -141,14 +149,19 @@
+         }
+     }
+ 
++    private volatile ScheduledExecutorService scheduler;
+     private volatile ApplicationHandler appHandler;
+ 
+-    private static final class Writer implements ContainerResponseWriter {
++    private static final class ResponseWriter implements ContainerResponseWriter {
+ 
++        private final AtomicReference<TimeoutTimer> reference;
++        private final ScheduledExecutorService scheduler;
+         private final Response response;
+ 
+-        Writer(final Response response) {
++        ResponseWriter(final Response response, final ScheduledExecutorService scheduler) {
++            this.reference = new AtomicReference<TimeoutTimer>();
+             this.response = response;
++            this.scheduler = scheduler;
+         }
+ 
+         @Override
+@@ -177,12 +190,36 @@
+ 
+         @Override
+         public boolean suspend(final long timeOut, final TimeUnit timeUnit, final TimeoutHandler timeoutHandler) {
+-            throw new UnsupportedOperationException("Method suspend is not supported by the container.");
++            try {
++                TimeoutTimer timer = reference.get();
++
++                if(timer == null) {
++                    TimeoutDispatcher task = new TimeoutDispatcher(this, timeoutHandler);
++                    ScheduledFuture<?> future = scheduler.schedule(task,  timeOut == 0 ? Integer.MAX_VALUE : timeOut, timeOut == 0 ? TimeUnit.SECONDS : timeUnit);
++                    timer = new TimeoutTimer(scheduler, future, task);
++                    reference.set(timer);
++                    return true;
++                }
++                return false;
++            } catch (final IllegalStateException ex) {
++                return false;
++            } finally {
++                logger.debugLog("suspend(...) called");
++            }
+         }
+ 
+         @Override
+         public void setSuspendTimeout(final long timeOut, final TimeUnit timeUnit) throws IllegalStateException {
+-            throw new UnsupportedOperationException("Method suspend is not supported by the container.");
++            try {
++                TimeoutTimer timer = reference.get();
++
++                if(timer == null) {
++                    throw new IllegalStateException("Response has not been suspended");
++                }
++                timer.reschedule(timeOut, timeUnit);
++            } finally {
++                    logger.debugLog("setTimeout(...) called");
++            }
+         }
+ 
+         @Override
+@@ -196,6 +233,10 @@
+             }
+         }
+ 
++        public boolean isSuspended() {
++            return reference.get() != null;
++        }
++
+         @Override
+         public void failure(final Throwable error) {
+             try {
+@@ -231,9 +272,55 @@
+ 
+     }
+ 
++    private static final class TimeoutTimer {
++
++        private final AtomicReference<ScheduledFuture<?>> reference;
++        private final ScheduledExecutorService service;
++        private final TimeoutDispatcher task;
++
++        public TimeoutTimer(ScheduledExecutorService service, ScheduledFuture<?> future, TimeoutDispatcher task) {
++            this.reference = new AtomicReference<ScheduledFuture<?>>();
++            this.service = service;
++            this.task = task;
++        }
++
++        public void reschedule(long timeOut, TimeUnit timeUnit) {
++            ScheduledFuture<?> future = reference.getAndSet(null);
++
++            if(future != null) {
++                if(future.cancel(false)) {
++                    future = service.schedule(task, timeOut == 0 ? Integer.MAX_VALUE : timeOut, timeOut == 0 ? TimeUnit.SECONDS : timeUnit);
++                    reference.set(future);
++                }
++            } else {
++                future = service.schedule(task, timeOut == 0 ? Integer.MAX_VALUE : timeOut, timeOut == 0 ? TimeUnit.SECONDS : timeUnit);
++                reference.set(future);
++            }
++        }
++    }
++
++    private static final class TimeoutDispatcher implements Runnable {
++
++        private final ResponseWriter writer;
++        private final TimeoutHandler handler;
++
++        public TimeoutDispatcher(ResponseWriter writer, TimeoutHandler handler) {
++            this.writer = writer;
++            this.handler = handler;
++        }
++
++        public void run() {
++            try {
++                handler.onTimeout(writer);
++            } catch(Exception e) {
++                logger.log(Level.INFO, "Failed to call timeout handler", e);
++            }
++        }
++    }
++
+     @Override
+     public void handle(final Request request, final Response response) {
+-        final Writer responseWriter = new Writer(response);
++        final ResponseWriter responseWriter = new ResponseWriter(response, scheduler);
+         final URI baseUri = getBaseUri(request);
+         final URI requestUri = getRequestUri(request, baseUri);
+ 
+@@ -261,7 +348,9 @@
+         } catch (final Exception ex) {
+             throw new RuntimeException(ex);
+         } finally {
+-            close(response);
++            if(!responseWriter.isSuspended()) {
++                close(response);
++            }
+         }
+     }
+ 
+@@ -316,7 +405,7 @@
+ 
+             @Override
+             public Principal getUserPrincipal() {
+-                return request.getSecuritySession().getLocalPrincipal();
++                return null;
+             }
+ 
+             @Override
+@@ -348,7 +437,8 @@
+     public void reload(final ResourceConfig configuration) {
+         appHandler.onShutdown(this);
+ 
+-        appHandler = new ApplicationHandler(configuration.register(new SimpleBinder()));
++        appHandler = new ApplicationHandler(configuration.register(new SimpleBinder()));        
++        scheduler = new ScheduledThreadPoolExecutor(2, new DaemonFactory(TimeoutDispatcher.class));
+         appHandler.onReload(this);
+         appHandler.onStartup(this);
+     }
+@@ -374,6 +464,7 @@
+      */
+     void onServerStop() {
+         appHandler.onShutdown(this);
++        scheduler.shutdown();
+     }
+ 
+     /**
+@@ -384,6 +475,7 @@
+      */
+     SimpleContainer(final Application application, final ServiceLocator parentLocator) {
+         this.appHandler = new ApplicationHandler(application, new SimpleBinder(), parentLocator);
++        this.scheduler = new ScheduledThreadPoolExecutor(2, new DaemonFactory(TimeoutDispatcher.class));
+     }
+ 
+     /**
+@@ -393,5 +485,6 @@
+      */
+     SimpleContainer(final Application application) {
+         this.appHandler = new ApplicationHandler(application, new SimpleBinder());
++        this.scheduler = new ScheduledThreadPoolExecutor(2, new DaemonFactory(TimeoutDispatcher.class));
+     }
+ }
+diff -Nru jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleServer.java jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleServer.java
+--- jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleServer.java	2016-02-16 13:27:12.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleServer.java	2016-02-18 22:15:26.950590617 +0100
+@@ -50,5 +50,34 @@
+  */
+ public interface SimpleServer extends Closeable {
+ 
++    /**
++    * The port the server is listening to for incomming HTTP connections. If the
++    * port is not specified the {@linke org.glassfish.jersey.server.spi.Container.DEFAULT_PORT}
++    * is used.
++    * 
++    * @return the port the server is listening on
++    */
+     public int getPort();
++
++    /**
++    * If this is true then very low level I/O operations are logged. Typically this is used
++    * to debug I/O issues such as HTTPS handshakes or performance issues by analysing the
++    * various latencies involved in the HTTP conversation.
++    * <p>
++    * There is a minimal performance penalty if this is enabled and it is perfectly suited
++    * to being enabled in a production environment, at the cost of logging overhead.
++    * 
++    * @return true if debug is enabled, false otherwise
++    */
++    public boolean isDebug();
++   
++    /**
++    * To enable very low level logging this can be enabled. This goes far beyond logging
++    * issues such as connection establishment of request dispatch, it can trace the TCP
++    * operations latencies involved.
++    * 
++    * @param enable if true debug tracing will be enabled
++    */
++    public void setDebug(boolean enable);
++
+ }
+diff -Nru jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleTraceAnalyzer.java jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleTraceAnalyzer.java
+--- jersey-2.22.2/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleTraceAnalyzer.java	1970-01-01 01:00:00.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/src/main/java/org/glassfish/jersey/simple/SimpleTraceAnalyzer.java	2016-02-18 22:15:26.951590561 +0100
+@@ -0,0 +1,177 @@
++package org.glassfish.jersey.simple;
++
++import java.io.PrintWriter;
++import java.io.StringWriter;
++import java.nio.channels.SelectableChannel;
++import java.util.Queue;
++import java.util.concurrent.ConcurrentLinkedQueue;
++import java.util.concurrent.ThreadFactory;
++import java.util.concurrent.atomic.AtomicBoolean;
++import java.util.concurrent.atomic.AtomicLong;
++import java.util.logging.Level;
++import java.util.logging.Logger;
++
++import org.glassfish.jersey.internal.util.ExtendedLogger;
++import org.simpleframework.common.thread.DaemonFactory;
++import org.simpleframework.transport.trace.Trace;
++import org.simpleframework.transport.trace.TraceAnalyzer;
++
++/**
++ * Tracing at a very low level can be performed with a {@link TraceAnalyzer}. This provides much 
++ * more useful information than the conventional {@link LoggingFilter} in that it provides
++ * details at a very low level. This is very useful when monitoring performance interactions
++ * at the TCP level between clients and servers.
++ * <p>
++ * Performance overhead for the server is minimal as events are pumped out in batches. The 
++ * amount of logging information will increase quite significantly though.
++ * 
++ * @author Niall Gallagher
++ */
++public class SimpleTraceAnalyzer implements TraceAnalyzer {
++
++    private static final ExtendedLogger logger = new ExtendedLogger(Logger.getLogger(SimpleTraceAnalyzer.class.getName()), Level.FINEST);
++    
++    private final TraceConsumer consumer;
++    private final ThreadFactory factory;
++    private final AtomicBoolean active;
++    private final AtomicLong count;
++    
++    public SimpleTraceAnalyzer() {
++       this.factory = new DaemonFactory(TraceConsumer.class);
++       this.consumer = new TraceConsumer();
++       this.active = new AtomicBoolean();
++       this.count = new AtomicLong();
++    }   
++    
++    public boolean isActive() {
++    	return active.get();
++    }
++
++    @Override
++    public Trace attach(SelectableChannel channel) {
++       long sequence = count.getAndIncrement();
++       return new TraceFeeder(channel, sequence);
++    }
++    
++    public void start() {
++    	if(active.compareAndSet(false, true)) {
++    		Thread thread = factory.newThread(consumer);
++    		thread.start();
++    	}
++    }
++
++	@Override
++	public void stop() {
++		active.set(false);
++	}
++	
++	private class TraceConsumer implements Runnable {
++		
++	    private final Queue<TraceRecord> queue;
++	    
++	    public TraceConsumer() {
++	       this.queue = new ConcurrentLinkedQueue<TraceRecord>();
++	    } 
++	    
++	    public void consume(TraceRecord record) {
++	    	queue.offer(record);
++	    }
++	    
++	    public void run() {
++	       try {
++	          while(active.get()) {
++	             Thread.sleep(1000);
++	             drain();
++	          }
++	       } catch(Exception e) {
++	          logger.info("Trace analyzer error");
++	       } finally {
++	    	   try {
++	    		   drain();
++	    	   } catch(Exception e) {
++	    		   logger.info("Trace analyzer could not drain queue");
++	    	   }
++	    	   active.set(false);
++	       }
++	       
++	    }
++	    
++	    private void drain() {
++            while(!queue.isEmpty()) {
++                TraceRecord record = queue.poll();
++            
++                if(record != null) {
++                   String message = record.toString();
++                   logger.info(message);
++                }
++             } 
++	    }
++	}
++    
++    private class TraceFeeder implements Trace {
++       
++       private final SelectableChannel channel;
++       private final long sequence;
++       
++       public TraceFeeder(SelectableChannel channel, long sequence) {
++          this.sequence = sequence;
++          this.channel = channel;
++       }
++
++       @Override
++       public void trace(Object event) {
++          trace(event, null);
++       }
++
++       @Override
++       public void trace(Object event, Object value) {
++          if(active.get()) {
++             TraceRecord record = new TraceRecord(channel, event, value, sequence);
++             consumer.consume(record);
++          }
++       }
++       
++    }
++    
++    private class TraceRecord {
++       
++       private final SelectableChannel channel;
++       private final String thread;
++       private final Object event;
++       private final Object value;
++       private final long sequence;
++       
++       public TraceRecord(SelectableChannel channel, Object event, Object value, long sequence) {
++          this.thread = Thread.currentThread().getName();
++          this.sequence = sequence;
++          this.channel = channel;
++          this.event = event;
++          this.value = value;
++       }
++       
++       public String toString() {
++          StringWriter builder = new StringWriter();
++          PrintWriter writer = new PrintWriter(builder);
++          
++          writer.print(sequence);         
++          writer.print(" "); 
++          writer.print(channel);
++          writer.print(" (");
++          writer.print(thread);
++          writer.print("): ");
++          writer.print(event);
++          
++          if(value != null) {
++             if(value instanceof Throwable) {
++                writer.print(" -> ");               
++                ((Throwable)value).printStackTrace(writer);
++             } else {
++                writer.print(" -> ");
++                writer.print(value);
++             }
++          }
++          writer.close();
++          return builder.toString();
++       }
++    }
++}
+diff -Nru jersey-2.22.2/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AbstractSimpleServerTester.java jersey-2.22.2.simple/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AbstractSimpleServerTester.java
+--- jersey-2.22.2/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AbstractSimpleServerTester.java	2016-02-16 13:27:12.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AbstractSimpleServerTester.java	2016-02-18 22:15:26.951590561 +0100
+@@ -95,7 +95,7 @@
+         return DEFAULT_PORT;
+     }
+ 
+-    private volatile Closeable server;
++    private volatile SimpleServer server;
+ 
+     public UriBuilder getUri() {
+         return UriBuilder.fromUri("http://localhost").port(getPort()).path(CONTEXT);
+@@ -109,6 +109,13 @@
+         LOGGER.log(Level.INFO, "Simple-http server started on base uri: " + baseUri);
+     }
+ 
++    public void startServerNoLoggingFilter(Class... resources) {
++        ResourceConfig config = new ResourceConfig(resources);
++        final URI baseUri = getBaseUri();
++        server = SimpleContainerFactory.create(baseUri, config);
++        LOGGER.log(Level.INFO, "Simple-http server started on base uri: " + baseUri);
++    }
++
+     public void startServer(ResourceConfig config) {
+         final URI baseUri = getBaseUri();
+         config.register(LoggingFilter.class);
+@@ -127,6 +134,12 @@
+         return UriBuilder.fromUri("http://localhost/").port(getPort()).build();
+     }
+ 
++    public void setDebug(boolean enable) {
++        if(server != null) {
++            server.setDebug(enable);
++        }
++    }
++
+     public void stopServer() {
+         try {
+             server.close();
+diff -Nru jersey-2.22.2/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AsyncTest.java jersey-2.22.2.simple/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AsyncTest.java
+--- jersey-2.22.2/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AsyncTest.java	1970-01-01 01:00:00.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/src/test/java/org/glassfish/jersey/simple/AsyncTest.java	2016-02-18 22:15:26.951590561 +0100
+@@ -0,0 +1,193 @@
++/*
++ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
++ *
++ * Copyright (c) 2013-2015 Oracle and/or its affiliates. All rights reserved.
++ *
++ * The contents of this file are subject to the terms of either the GNU
++ * General Public License Version 2 only ("GPL") or the Common Development
++ * and Distribution License("CDDL") (collectively, the "License").  You
++ * may not use this file except in compliance with the License.  You can
++ * obtain a copy of the License at
++ * http://glassfish.java.net/public/CDDL+GPL_1_1.html
++ * or packager/legal/LICENSE.txt.  See the License for the specific
++ * language governing permissions and limitations under the License.
++ *
++ * When distributing the software, include this License Header Notice in each
++ * file and include the License file at packager/legal/LICENSE.txt.
++ *
++ * GPL Classpath Exception:
++ * Oracle designates this particular file as subject to the "Classpath"
++ * exception as provided by Oracle in the GPL Version 2 section of the License
++ * file that accompanied this code.
++ *
++ * Modifications:
++ * If applicable, add the following below the License Header, with the fields
++ * enclosed by brackets [] replaced by your own identifying information:
++ * "Portions Copyright [year] [name of copyright owner]"
++ *
++ * Contributor(s):
++ * If you wish your version of this file to be governed by only the CDDL or
++ * only the GPL Version 2, indicate your decision by adding "[Contributor]
++ * elects to include this software in this distribution under the [CDDL or GPL
++ * Version 2] license."  If you don't indicate a single choice of license, a
++ * recipient has the option to distribute your version of this file under
++ * either the CDDL, the GPL Version 2 or to extend the choice of license to
++ * its licensees as provided above.  However, if you add GPL Version 2 code
++ * and therefore, elected the GPL Version 2 license, then the option applies
++ * only if the new code is made subject to such option by the copyright
++ * holder.
++ */
++package org.glassfish.jersey.simple;
++
++import static org.hamcrest.CoreMatchers.is;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertThat;
++
++import java.util.concurrent.ExecutionException;
++import java.util.concurrent.Future;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.TimeoutException;
++import java.util.concurrent.atomic.AtomicInteger;
++
++import javax.ws.rs.GET;
++import javax.ws.rs.Path;
++import javax.ws.rs.client.Client;
++import javax.ws.rs.client.ClientBuilder;
++import javax.ws.rs.container.AsyncResponse;
++import javax.ws.rs.container.Suspended;
++import javax.ws.rs.container.TimeoutHandler;
++import javax.ws.rs.core.Response;
++
++import org.junit.After;
++import org.junit.Before;
++import org.junit.Test;
++
++/**
++ * @author Arul Dhesiaseelan (aruld at acm.org)
++ * @author Michal Gajdos
++ */
++public class AsyncTest extends AbstractSimpleServerTester {
++
++    @Path("/async")
++    @SuppressWarnings("VoidMethodAnnotatedWithGET")
++    public static class AsyncResource {
++
++        public static AtomicInteger INVOCATION_COUNT = new AtomicInteger(0);
++
++        @GET
++        public void asyncGet(@Suspended final AsyncResponse asyncResponse) {
++            new Thread(new Runnable() {
++
++                @Override
++                public void run() {
++                    final String result = veryExpensiveOperation();
++                    asyncResponse.resume(result);
++                }
++
++                private String veryExpensiveOperation() {
++                    // ... very expensive operation that typically finishes within 5 seconds, simulated using sleep()
++                    try {
++                        Thread.sleep(5000);
++                    } catch (final InterruptedException e) {
++                        // ignore
++                    }
++                    return "DONE";
++                }
++            }).start();
++        }
++
++        @GET
++        @Path("timeout")
++        public void asyncGetWithTimeout(@Suspended final AsyncResponse asyncResponse) {
++            asyncResponse.setTimeoutHandler(new TimeoutHandler() {
++
++                @Override
++                public void handleTimeout(final AsyncResponse asyncResponse) {
++                    asyncResponse.resume(Response.status(Response.Status.SERVICE_UNAVAILABLE).entity("Operation time out.")
++                            .build());
++                }
++            });
++            asyncResponse.setTimeout(3, TimeUnit.SECONDS);
++
++            new Thread(new Runnable() {
++
++                @Override
++                public void run() {
++                    final String result = veryExpensiveOperation();
++                    asyncResponse.resume(result);
++                }
++
++                private String veryExpensiveOperation() {
++                    // ... very expensive operation that typically finishes within 10 seconds, simulated using sleep()
++                    try {
++                        Thread.sleep(7000);
++                    } catch (final InterruptedException e) {
++                        // ignore
++                    }
++                    return "DONE";
++                }
++            }).start();
++        }
++
++        @GET
++        @Path("multiple-invocations")
++        public void asyncMultipleInvocations(@Suspended final AsyncResponse asyncResponse) {
++            INVOCATION_COUNT.incrementAndGet();
++
++            new Thread(new Runnable() {
++                @Override
++                public void run() {
++                    asyncResponse.resume("OK");
++                }
++            }).start();
++        }
++    }
++
++    private Client client;
++
++    @Before
++    public void setUp() throws Exception {
++        startServer(AsyncResource.class);
++        client = ClientBuilder.newClient();
++    }
++
++    @Override
++    @After
++    public void tearDown() {
++        super.tearDown();
++        client = null;
++    }
++
++    @Test
++    public void testAsyncGet() throws ExecutionException, InterruptedException {
++        final Future<Response> responseFuture = client.target(getUri().path("/async")).request().async().get();
++        // Request is being processed asynchronously.
++        final Response response = responseFuture.get();
++        // get() waits for the response
++        assertEquals("DONE", response.readEntity(String.class));
++    }
++
++    @Test
++    public void testAsyncGetWithTimeout() throws ExecutionException, InterruptedException, TimeoutException {
++        final Future<Response> responseFuture = client.target(getUri().path("/async/timeout")).request().async().get();
++        // Request is being processed asynchronously.
++        final Response response = responseFuture.get();
++
++        // get() waits for the response
++        assertEquals(503, response.getStatus());
++        assertEquals("Operation time out.", response.readEntity(String.class));
++    }
++
++    /**
++     * JERSEY-2616 reproducer. Make sure resource method is only invoked once per one request.
++     */
++    @Test
++    public void testAsyncMultipleInvocations() throws Exception {
++        final Response response = client.target(getUri().path("/async/multiple-invocations")).request().get();
++
++        assertThat(AsyncResource.INVOCATION_COUNT.get(), is(1));
++
++        assertThat(response.getStatus(), is(200));
++        assertThat(response.readEntity(String.class), is("OK"));
++    }
++}
+diff -Nru jersey-2.22.2/containers/simple-http/src/test/java/org/glassfish/jersey/simple/TraceTest.java jersey-2.22.2.simple/containers/simple-http/src/test/java/org/glassfish/jersey/simple/TraceTest.java
+--- jersey-2.22.2/containers/simple-http/src/test/java/org/glassfish/jersey/simple/TraceTest.java	1970-01-01 01:00:00.000000000 +0100
++++ jersey-2.22.2.simple/containers/simple-http/src/test/java/org/glassfish/jersey/simple/TraceTest.java	2016-02-18 22:15:26.952590505 +0100
+@@ -0,0 +1,89 @@
++package org.glassfish.jersey.simple;
++
++import static org.hamcrest.CoreMatchers.is;
++import static org.hamcrest.MatcherAssert.assertThat;
++import static org.junit.Assert.assertEquals;
++import static org.junit.Assert.assertTrue;
++
++import javax.ws.rs.GET;
++import javax.ws.rs.Path;
++import javax.ws.rs.Produces;
++import javax.ws.rs.client.Client;
++import javax.ws.rs.client.ClientBuilder;
++import javax.ws.rs.core.Response;
++
++import org.junit.After;
++import org.junit.Before;
++import org.junit.Test;
++
++public class TraceTest extends AbstractSimpleServerTester {
++
++    @Path("helloworld")
++    public static class HelloWorldResource {
++        public static final String CLICHED_MESSAGE = "Hello World!";
++
++        @GET
++        @Produces("text/plain")
++        public String getHello() {
++            return CLICHED_MESSAGE;
++        }
++    }
++
++    @Path("/users")
++    public class UserResource {
++
++        @Path("/current")
++        @GET
++        @Produces("text/plain")
++        public String getCurrentUser() {
++            return "current user";
++        }
++    }
++
++    private Client client;
++
++    @Before
++    public void setUp() throws Exception {
++    	startServerNoLoggingFilter(HelloWorldResource.class, UserResource.class); // disable crude LoggingFilter
++        setDebug(true);
++        client = ClientBuilder.newClient();
++    }
++
++    @Override
++    @After
++    public void tearDown() {
++        super.tearDown();
++        client = null;
++    }
++
++
++    @Test
++    public void testFooBarOptions() {
++    	for(int i = 0; i < 100; i++) {
++	        Response response = client.target(getUri()).path("helloworld").request().header("Accept", "foo/bar").options();
++	        assertEquals(200, response.getStatus());
++	        final String allowHeader = response.getHeaderString("Allow");
++	        _checkAllowContent(allowHeader);
++	        assertEquals(0, response.getLength());
++	        assertEquals("foo/bar", response.getMediaType().toString());
++	        
++	        try {
++	        	Thread.sleep(50);
++	        } catch(Exception e) {
++	        	e.printStackTrace();
++	        }
++    	}
++    }
++
++    private void _checkAllowContent(final String content) {
++        assertTrue(content.contains("GET"));
++        assertTrue(content.contains("HEAD"));
++        assertTrue(content.contains("OPTIONS"));
++    }
++
++    @Test
++    public void testNoDefaultMethod() {
++        Response response = client.target(getUri()).path("/users").request().options();
++        assertThat(response.getStatus(), is(404));
++    }
++}
+diff -Nru jersey-2.22.2/pom.xml jersey-2.22.2.simple/pom.xml
+--- jersey-2.22.2/pom.xml	2016-02-16 13:27:12.000000000 +0100
++++ jersey-2.22.2.simple/pom.xml	2016-02-18 22:15:26.952590505 +0100
+@@ -1449,10 +1449,20 @@
+ 
+             <dependency>
+                 <groupId>org.simpleframework</groupId>
+-                <artifactId>simple</artifactId>
++                <artifactId>simple-common</artifactId>
+                 <version>${simple.version}</version>
+             </dependency>
+-
++            <dependency>
++                <groupId>org.simpleframework</groupId>
++                <artifactId>simple-http</artifactId>
++                <version>${simple.version}</version>
++            </dependency>
++            <dependency>
++                <groupId>org.simpleframework</groupId>
++                <artifactId>simple-transport</artifactId>
++                <version>${simple.version}</version>
++            </dependency>
++            
+             <dependency>
+                 <groupId>org.codehaus.jettison</groupId>
+                 <artifactId>jettison</artifactId>
+@@ -1886,7 +1896,7 @@
+         <rxjava.version>1.0.12</rxjava.version>
+         <servlet2.version>2.4</servlet2.version>
+         <servlet3.version>3.0.1</servlet3.version>
+-        <simple.version>5.1.4</simple.version>
++        <simple.version>6.0.1</simple.version>
+         <slf4j.version>1.7.12</slf4j.version>
+         <spring3.version>3.2.3.RELEASE</spring3.version>
+         <validation.api.version>1.1.0.Final</validation.api.version>
